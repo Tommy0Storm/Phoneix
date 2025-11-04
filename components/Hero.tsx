@@ -25,6 +25,19 @@ const Hero: React.FC<HeroProps> = ({ onQuoteClick }) => {
       <div className="absolute inset-0 bg-gradient-to-br from-black/70 via-black/50 to-black/70"></div>
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
       <div className="relative z-10 p-6">
+        {/* Premium logo display */}
+        <div className="flex justify-center mb-8">
+          <div className="relative">
+            <div className="absolute -inset-2 bg-gradient-to-r from-[#E63946] via-[#457B9D] to-[#E63946] rounded-full opacity-30 blur-lg animate-pulse"></div>
+            <div className="relative bg-white/10 backdrop-blur-xl p-4 rounded-full border border-white/20">
+              <img 
+                src="/logo.png" 
+                alt="Phoenix Projects Logo" 
+                className="w-16 h-16 md:w-20 md:h-20 object-contain filter drop-shadow-2xl hover:scale-110 transition-transform duration-500"
+              />
+            </div>
+          </div>
+        </div>
         <h1 className="text-5xl md:text-7xl font-bold uppercase tracking-[0.3em] mb-6 text-shadow-lg" style={{fontFamily: "'Quicksand', sans-serif", fontWeight: 700, textShadow: '2px 2px 4px rgba(0,0,0,0.5)'}}>
           EXCEPTIONAL CRAFTSMANSHIP
         </h1>

@@ -166,8 +166,16 @@ const Chatbot: React.FC = () => {
           {/* Animated background effect */}
           <div className="absolute inset-0 bg-gradient-to-r from-[#E63946]/20 via-transparent to-[#457B9D]/20 animate-pulse"></div>
           <div className="flex items-center space-x-3 relative z-10">
-            <div className="w-10 h-10 bg-gradient-to-br from-[#E63946] to-[#D62837] rounded-full flex items-center justify-center shadow-lg animate-bounce" style={{animationDuration: '2s'}}>
-              <span className="text-white font-bold text-lg">J</span>
+            <div className="relative">
+              {/* Phoenix logo for AI Jannie */}
+              <div className="absolute -inset-1 bg-gradient-to-r from-[#E63946] to-[#D62837] rounded-full opacity-50 blur-sm animate-pulse"></div>
+              <div className="relative w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center p-1">
+                <img 
+                  src="/logo.png" 
+                  alt="Phoenix Projects" 
+                  className="w-full h-full object-contain filter drop-shadow-lg"
+                />
+              </div>
             </div>
             <div className="flex flex-col">
               <h3 className="font-bold text-xl tracking-[0.1em] bg-gradient-to-r from-white via-[#E63946] to-white bg-clip-text text-transparent animate-pulse">AI JANNIE</h3>

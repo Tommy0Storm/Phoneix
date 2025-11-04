@@ -9,12 +9,23 @@ const Header: React.FC<HeaderProps> = ({ onQuoteClick }) => {
     <header className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-black/90 via-gray-900/90 to-black/90 backdrop-blur-xl text-white shadow-2xl border-b border-white/10">
       <div className="container mx-auto px-8 py-6 flex justify-between items-center">
         <div className="flex items-center space-x-4">
-          <div className="w-12 h-12 bg-gradient-to-br from-[#E63946] to-[#D62837] rounded-full flex items-center justify-center shadow-xl">
-            <span className="text-white font-bold text-lg">P</span>
+          <div className="relative">
+            {/* Logo with premium frame effect */}
+            <div className="absolute -inset-1 bg-gradient-to-r from-[#E63946] to-[#457B9D] rounded-xl opacity-50 blur-sm"></div>
+            <div className="relative bg-white/10 backdrop-blur-sm p-2 rounded-xl">
+              <img 
+                src="/logo.png" 
+                alt="Phoenix Projects Logo" 
+                className="w-10 h-10 object-contain filter drop-shadow-lg hover:scale-110 transition-transform duration-300"
+              />
+            </div>
           </div>
-          <h1 className="text-2xl font-bold tracking-[0.2em] bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent" style={{fontFamily: "'Quicksand', sans-serif"}}>
-            PHOENIX PROJECTS
-          </h1>
+          <div className="flex flex-col">
+            <h1 className="text-2xl font-bold tracking-[0.2em] bg-gradient-to-r from-white via-[#E63946] to-white bg-clip-text text-transparent" style={{fontFamily: "'Quicksand', sans-serif"}}>
+              PHOENIX PROJECTS
+            </h1>
+            <p className="text-xs text-gray-300 tracking-widest">BUILDING EXCELLENCE SINCE 2009</p>
+          </div>
         </div>
         <nav>
           <button
