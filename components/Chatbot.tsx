@@ -115,7 +115,7 @@ const Chatbot: React.FC = () => {
               <div className="flex-shrink-0 text-3xl">👋</div>
               <div>
                 <h4 className="font-bold text-gray-800 mb-1">
-                  {isFirstVisit ? 'Welcome to Phoenix Automation!' : 'Welcome back!'}
+                  {isFirstVisit ? 'Welcome to Phoenix Projects!' : 'Welcome back!'}
                 </h4>
                 <p className="text-sm text-gray-600">
                   {isFirstVisit

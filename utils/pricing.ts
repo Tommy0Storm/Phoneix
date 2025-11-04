@@ -1,4 +1,4 @@
-// Pricing utilities for Phoenix Automation
+// Pricing utilities for Phoenix Projects
 
 export const HOURLY_RATE = 700; // R700 per hour
 export const MATERIAL_MARKUP = 0.30; // 30% markup

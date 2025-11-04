@@ -1,4 +1,4 @@
-// Random image rotation utility for Phoenix Automation
+// Random image rotation utility for Phoenix Projects
 
 export interface ImagePool {
   url: string;
@@ -33,7 +33,7 @@ export const heroImages: ImagePool[] = [
 export const aboutImages: ImagePool[] = [
   {
     url: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=1740&auto=format&fit=crop',
-    alt: 'Phoenix Automation team on construction site',
+    alt: 'Phoenix Projects team on construction site',
   },
   {
     url: 'https://images.unsplash.com/photo-1529499563346-a2a44fbc7e2a?q=80&w=1740&auto=format&fit=crop',

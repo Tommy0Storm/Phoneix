@@ -9,7 +9,7 @@ const Header: React.FC<HeaderProps> = ({ onQuoteClick }) => {
     <header className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-sm text-white shadow-md">
       <div className="container mx-auto px-6 py-4 flex justify-between items-center">
         <h1 className="text-xl font-bold tracking-widest" style={{fontFamily: "'Quicksand', sans-serif"}}>
-          PHOENIX AUTOMATION
+          PHOENIX PROJECTS
         </h1>
         <nav>
           <button

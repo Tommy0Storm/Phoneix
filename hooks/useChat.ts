@@ -5,7 +5,7 @@ import type { Message } from '../types';
 import { calculateQuote, type JobEstimate } from '../utils/pricing';
 import { z } from 'zod';
 
-const SYSTEM_INSTRUCTION = `You are a friendly and professional AI assistant for Phoenix Automation, a premium handyman, construction, and home automation company in Gauteng, South Africa. The owner is Andrew Truter, and you can reach him at:
+const SYSTEM_INSTRUCTION = `You are a friendly and professional AI assistant for Phoenix Projects, a premium handyman, construction, and home automation company in Gauteng, South Africa. The owner is Andrew Truter, and you can reach him at:
 - Phone: 079 463 5951
 - Email: andrewtruter2@gmail.com
 
@@ -51,7 +51,7 @@ Your Process:
 - Mention your sources when providing price information
 - If prices vary, use average or mid-range estimates
 
-Keep your responses concise, helpful, and professional. Always promote the quality and expertise of Phoenix Automation.`;
+Keep your responses concise, helpful, and professional. Always promote the quality and expertise of Phoenix Projects.`;
 
 export const useChat = () => {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -66,7 +66,7 @@ export const useChat = () => {
       {
         id: 'initial',
         role: 'assistant',
-        content: "Welcome to Phoenix Automation! I'm your AI assistant with access to real-time pricing information. I can help you get accurate cost estimates for your premium home improvement, security, and smart automation projects in Gauteng. What can I help you with today?",
+        content: "Welcome to Phoenix Projects! I'm your AI assistant with access to real-time pricing information. I can help you get accurate cost estimates for your premium home improvement, security, and smart automation projects in Gauteng. What can I help you with today?",
       },
     ]);
   }, []);

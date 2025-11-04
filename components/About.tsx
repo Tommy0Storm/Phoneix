@@ -29,7 +29,7 @@ const About: React.FC = () => {
           <div className="w-full lg:w-1/2 px-4 lg:pl-12">
             <h2 className="text-3xl md:text-4xl font-bold uppercase tracking-widest text-black mb-4">Our Commitment</h2>
             <p className="text-gray-600 mb-6 text-lg" style={{fontWeight: 400}}>
-              At Phoenix Automation, we believe that true quality lies in the intersection of superior materials, expert skill, and a client-centric approach. Our foundation is built on integrity, reliability, and a relentless pursuit of perfection.
+              At Phoenix Projects, we believe that true quality lies in the intersection of superior materials, expert skill, and a client-centric approach. Our foundation is built on integrity, reliability, and a relentless pursuit of perfection.
             </p>
             <p className="text-gray-600 text-lg" style={{fontWeight: 400}}>
               We serve the Gauteng region with a promise: to treat every project, regardless of scale, with the highest level of professionalism and to deliver results that not only meet but exceed expectations.
