@@ -58,26 +58,11 @@ export const aboutImages: ImagePool[] = [
 ];
 
 /**
- * Get a random image from a pool, changing with each new session
- * Uses sessionStorage to maintain consistency during the same visit
+ * Get a random image from a pool, changing with each visit
  */
 export function getRandomImage(pool: ImagePool[], storageKey: string): ImagePool {
-  // Check if we already selected an image for this session
-  const storedIndex = sessionStorage.getItem(storageKey);
-
-  if (storedIndex !== null) {
-    const index = parseInt(storedIndex, 10);
-    if (index >= 0 && index < pool.length) {
-      return pool[index];
-    }
-  }
-
-  // Select a random image
+  // Select a random image on every call
   const randomIndex = Math.floor(Math.random() * pool.length);
-
-  // Store the selection for this session
-  sessionStorage.setItem(storageKey, randomIndex.toString());
-
   return pool[randomIndex];
 }
 
