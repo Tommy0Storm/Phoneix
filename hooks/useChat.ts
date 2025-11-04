@@ -108,17 +108,14 @@ export const useChat = () => {
         }));
 
       // Generate content with Google Search grounding only
-      const model = ai.getGenerativeModel({ 
+      const result = await ai.models.generateContent({
         model: 'gemini-2.0-flash-exp',
-        systemInstruction: SYSTEM_INSTRUCTION,
-        tools: [{ googleSearch: {} }]
-      });
-
-      const result = await model.generateContent({
         contents: [
           ...conversationHistory,
           { role: 'user', parts: [{ text: messageText }] }
-        ]
+        ],
+        systemInstruction: SYSTEM_INSTRUCTION,
+        tools: [{ googleSearch: {} }]
       });
 
       const responseText = result.text || 'I apologize, but I was unable to generate a response.';
