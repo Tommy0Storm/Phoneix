@@ -180,7 +180,21 @@ const Chatbot: React.FC = () => {
                       : 'bg-gray-200 text-black rounded-bl-none'
                   }`}
                 >
-                  <p className="text-sm whitespace-pre-wrap">{msg.content}</p>
+                  {msg.role === 'user' ? (
+                    <p className="text-sm whitespace-pre-wrap">{msg.content}</p>
+                  ) : (
+                    <div 
+                      className="text-sm prose prose-sm max-w-none"
+                      dangerouslySetInnerHTML={{
+                        __html: msg.content
+                          .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                          .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                          .replace(/^\s*\*\s+(.+)$/gm, '<li>$1</li>')
+                          .replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>')
+                          .replace(/\n/g, '<br>')
+                      }}
+                    />
+                  )}
                 </div>
               </div>
             ))}
