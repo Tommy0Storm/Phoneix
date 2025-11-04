@@ -52,8 +52,8 @@ const Chatbot: React.FC = () => {
         {/* Messages */}
         <div className="flex-1 p-4 overflow-y-auto bg-gray-50">
           <div className="space-y-4">
-            {messages.map((msg, index) => (
-              <div key={index} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+            {messages.map((msg) => (
+              <div key={msg.id} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                 <div
                   className={`max-w-xs md:max-w-md lg:max-w-xs px-4 py-2 rounded-2xl ${
                     msg.role === 'user'
@@ -61,7 +61,7 @@ const Chatbot: React.FC = () => {
                       : 'bg-gray-200 text-black rounded-bl-none'
                   }`}
                 >
-                  <p className="text-sm">{msg.parts.map(p => p.text).join('')}</p>
+                  <p className="text-sm whitespace-pre-wrap">{msg.content}</p>
                 </div>
               </div>
             ))}

@@ -8,6 +8,7 @@ export interface Service {
 }
 
 export interface Message {
-  role: 'user' | 'model';
-  parts: { text: string }[];
+  id: string;
+  role: 'user' | 'assistant';
+  content: string;
 }

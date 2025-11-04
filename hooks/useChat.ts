@@ -1,5 +1,6 @@
-import { useState, useMemo, useEffect } from 'react';
-import { GoogleGenAI, Chat } from '@google/genai';
+import { useState, useEffect } from 'react';
+import { createGoogleGenerativeAI } from '@ai-sdk/google';
+import { generateText, streamText } from 'ai';
 import type { Message } from '../types';
 
 const SYSTEM_INSTRUCTION = `You are a friendly and professional AI assistant for Phoenix Automation, a premium handyman, construction, and home automation company in Gauteng, South Africa. The owner is Andrew Truter, and his contact email is andrewtruter2@gmail.com.
@@ -27,51 +28,83 @@ export const useChat = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
 
-  const ai = useMemo(() => new GoogleGenAI({ apiKey: process.env.API_KEY as string }), []);
-
-  const chat = useMemo(() => {
-    return ai.chats.create({
-      model: 'gemini-2.5-flash',
-      config: {
-        systemInstruction: SYSTEM_INSTRUCTION,
-      }
-    });
-  }, [ai]);
+  const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
 
   useEffect(() => {
     // Initial message from the bot
     setMessages([
       {
-        role: 'model',
-        parts: [{ text: "Welcome to Phoenix Automation! I'm your AI assistant, ready to help with your premium home improvement, security, and smart automation projects in Gauteng. What can I help you with today? You can ask about our services or request a free consultation." }],
+        id: 'initial',
+        role: 'assistant',
+        content: "Welcome to Phoenix Automation! I'm your AI assistant, ready to help with your premium home improvement, security, and smart automation projects in Gauteng. What can I help you with today? You can ask about our services or request a free consultation.",
       },
     ]);
   }, []);
 
   const sendMessage = async (messageText: string) => {
+    if (!apiKey) {
+      setError(new Error('API key is not configured'));
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        {
+          id: Date.now().toString(),
+          role: 'assistant',
+          content: "I'm sorry, but the API key is not configured. Please contact support.",
+        },
+      ]);
+      return;
+    }
+
     setIsLoading(true);
     setError(null);
 
     const userMessage: Message = {
+      id: Date.now().toString(),
       role: 'user',
-      parts: [{ text: messageText }],
+      content: messageText,
     };
 
     setMessages((prevMessages) => [...prevMessages, userMessage]);
 
     try {
-      const stream = await chat.sendMessageStream({ message: messageText });
-      
-      let fullResponse = '';
-      setMessages((prevMessages) => [...prevMessages, { role: 'model', parts: [{ text: '' }] }]);
+      const google = createGoogleGenerativeAI({ apiKey });
 
-      for await (const chunk of stream) {
-        const chunkText = chunk.text;
-        fullResponse += chunkText;
-        
+      // Add placeholder for assistant message
+      const assistantMessageId = (Date.now() + 1).toString();
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        { id: assistantMessageId, role: 'assistant', content: '' },
+      ]);
+
+      // Prepare conversation history for the AI
+      const conversationHistory = messages
+        .filter(m => m.id !== 'initial')
+        .map(m => ({
+          role: m.role === 'assistant' ? 'assistant' as const : 'user' as const,
+          content: m.content,
+        }));
+
+      // Stream the response
+      const result = await streamText({
+        model: google('gemini-2.0-flash-exp'),
+        system: SYSTEM_INSTRUCTION,
+        messages: [
+          ...conversationHistory,
+          { role: 'user', content: messageText },
+        ],
+      });
+
+      // Handle streaming
+      let fullResponse = '';
+      for await (const textPart of result.textStream) {
+        fullResponse += textPart;
+
         setMessages((prevMessages) => {
           const newMessages = [...prevMessages];
-          newMessages[newMessages.length - 1].parts[0].text = fullResponse;
+          const lastMessage = newMessages[newMessages.length - 1];
+          if (lastMessage.role === 'assistant' && lastMessage.id === assistantMessageId) {
+            lastMessage.content = fullResponse;
+          }
           return newMessages;
         });
       }
@@ -79,13 +112,18 @@ export const useChat = () => {
     } catch (e) {
       const errorMessage = e instanceof Error ? e.message : 'An unknown error occurred.';
       setError(new Error(errorMessage));
-      setMessages((prevMessages) => [
-        ...prevMessages,
-        {
-          role: 'model',
-          parts: [{ text: `I'm sorry, I've encountered an error. Please try again later. Details: ${errorMessage}` }],
-        },
-      ]);
+      setMessages((prevMessages) => {
+        // Remove the placeholder message and add error message
+        const filtered = prevMessages.filter(m => m.content !== '');
+        return [
+          ...filtered,
+          {
+            id: Date.now().toString(),
+            role: 'assistant',
+            content: `I'm sorry, I've encountered an error. Please try again later. Details: ${errorMessage}`,
+          },
+        ];
+      });
     } finally {
       setIsLoading(false);
     }
