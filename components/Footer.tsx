@@ -6,9 +6,9 @@ const Footer: React.FC = () => {
       <div className="container mx-auto px-6 text-center">
         <h3 className="text-2xl font-bold tracking-widest text-white mb-6">PHOENIX AUTOMATION</h3>
         <div className="flex justify-center space-x-6 mb-8 text-sm">
-          <a href="mailto:contact@phoenixautomation.co.za" className="hover:text-white transition-colors">contact@phoenixautomation.co.za</a>
+          <a href="mailto:andrewtruter2@gmail.com" className="hover:text-white transition-colors">andrewtruter2@gmail.com</a>
           <span>&bull;</span>
-          <a href="tel:+27000000000" className="hover:text-white transition-colors">+27 (0)0 000 0000</a>
+          <a href="tel:+27794635951" className="hover:text-white transition-colors">+27 79 463 5951</a>
           <span>&bull;</span>
           <p>Gauteng, South Africa</p>
         </div>
