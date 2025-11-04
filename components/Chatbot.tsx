@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useChat } from '../hooks/useChat';
 import { useVoiceRecognition } from '../hooks/useVoiceRecognition';
+import { useVisitorEngagement } from '../hooks/useVisitorEngagement';
 import { ChatIcon, CloseIcon, SendIcon, MicrophoneIcon, MicrophoneActiveIcon } from './icons/ChatbotIcons';
 
 const Chatbot: React.FC = () => {
@@ -19,6 +20,16 @@ const Chatbot: React.FC = () => {
     resetTranscript,
     error: voiceError,
   } = useVoiceRecognition();
+
+  // Visitor engagement
+  const {
+    shouldAutoOpen,
+    showNotification,
+    showWelcomeTooltip,
+    isFirstVisit,
+    markInteraction,
+    dismissTooltip,
+  } = useVisitorEngagement();
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -48,6 +59,14 @@ const Chatbot: React.FC = () => {
     }
   }, [isListening, transcript, isLoading]);
 
+  // Auto-open chat for engagement
+  useEffect(() => {
+    if (shouldAutoOpen && !isOpen) {
+      setIsOpen(true);
+      markInteraction();
+    }
+  }, [shouldAutoOpen]);
+
   const handleSend = (e: React.FormEvent) => {
     e.preventDefault();
     if (input.trim() && !isLoading && !isListening) {
@@ -65,15 +84,64 @@ const Chatbot: React.FC = () => {
     }
   };
 
+  const handleChatToggle = () => {
+    setIsOpen(!isOpen);
+    if (!isOpen) {
+      markInteraction();
+    }
+  };
+
   return (
     <>
+      {/* Welcome Tooltip */}
+      {showWelcomeTooltip && !isOpen && (
+        <div className="fixed bottom-28 right-6 z-50 animate-bounce">
+          <div className="bg-white border-2 border-[#E63946] rounded-lg shadow-2xl p-4 max-w-xs relative">
+            <button
+              onClick={dismissTooltip}
+              className="absolute -top-2 -right-2 bg-[#E63946] text-white rounded-full w-6 h-6 flex items-center justify-center hover:bg-[#D62837] text-xs font-bold"
+            >
+              ×
+            </button>
+            <div className="flex items-start space-x-3">
+              <div className="flex-shrink-0 text-3xl">👋</div>
+              <div>
+                <h4 className="font-bold text-gray-800 mb-1">
+                  {isFirstVisit ? 'Welcome to Phoenix Automation!' : 'Welcome back!'}
+                </h4>
+                <p className="text-sm text-gray-600">
+                  {isFirstVisit
+                    ? 'I can help you with instant quotes using real-time pricing! Click to chat or use voice input 🎤'
+                    : 'Need a quote? I have access to real-time pricing and can use voice commands!'}
+                </p>
+              </div>
+            </div>
+            {/* Arrow pointing to button */}
+            <div className="absolute -bottom-2 right-8 w-4 h-4 bg-white border-r-2 border-b-2 border-[#E63946] transform rotate-45"></div>
+          </div>
+        </div>
+      )}
+
+      {/* Chat Button */}
       <div className="fixed bottom-6 right-6 z-50">
         <button
-          onClick={() => setIsOpen(!isOpen)}
-          className="bg-[#E63946] text-white w-16 h-16 rounded-full shadow-lg flex items-center justify-center hover:bg-[#D62837] transition-transform duration-300 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#E63946]"
+          onClick={handleChatToggle}
+          className={`bg-[#E63946] text-white w-16 h-16 rounded-full shadow-lg flex items-center justify-center hover:bg-[#D62837] transition-all duration-300 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#E63946] relative ${
+            showNotification && !isOpen ? 'animate-[bounce_1s_ease-in-out_infinite]' : ''
+          }`}
           aria-label={isOpen ? 'Close chat' : 'Open chat'}
         >
           {isOpen ? <CloseIcon /> : <ChatIcon />}
+
+          {/* Notification Badge */}
+          {showNotification && !isOpen && (
+            <span className="absolute -top-1 -right-1 flex h-5 w-5">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-yellow-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-5 w-5 bg-yellow-500 items-center justify-center text-xs font-bold text-white">
+                !
+              </span>
+            </span>
+          )}
         </button>
       </div>
       

@@ -60,6 +60,15 @@ This project now uses the Vercel AI SDK (`ai` and `@ai-sdk/google`) which provid
 - **South African English**: Optimized for en-ZA language detection
 - **Visual feedback**: Shows when listening and displays transcription progress
 
+#### 4. Proactive Visitor Engagement
+- **Auto-open chat**: Automatically opens for first-time visitors after 5 seconds
+- **Welcome tooltip**: Animated popup appears after 2 seconds to grab attention
+- **Notification badge**: Pulsing yellow badge with exclamation mark on chat button
+- **Bounce animation**: Chat button bounces to draw visitor attention
+- **Smart tracking**: Uses localStorage to track visitor interactions
+- **Returning visitor handling**: Shows welcome message for users who haven't interacted in 24+ hours
+- **First-visit detection**: Special messaging for new visitors highlighting key features
+
 ### Key Features:
 
 - Uses Gemini 2.0 Flash Experimental model for faster responses
