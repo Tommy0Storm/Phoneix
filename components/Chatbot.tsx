@@ -141,17 +141,20 @@ const Chatbot: React.FC = () => {
         </div>
       )}
 
-      {/* Chat Button */}
-      <div className="fixed bottom-6 right-6 z-50">
+      {/* Chat Button - Mobile Optimized */}
+      <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50">
         <button
           onClick={handleChatToggle}
-          className={`bg-gradient-to-br from-[#E63946] to-[#D62837] text-white w-20 h-20 rounded-full shadow-2xl flex items-center justify-center hover:from-[#D62837] hover:to-[#C5252F] transition-all duration-500 hover:scale-110 focus:outline-none focus:ring-4 focus:ring-[#E63946]/30 relative border-2 border-white/20 backdrop-blur-sm ${
+          className={`bg-gradient-to-br from-[#E63946] to-[#D62837] text-white w-16 h-16 sm:w-20 sm:h-20 rounded-full shadow-2xl flex items-center justify-center hover:from-[#D62837] hover:to-[#C5252F] transition-all duration-500 hover:scale-110 active:scale-95 focus:outline-none focus:ring-4 focus:ring-[#E63946]/30 relative border-2 border-white/20 backdrop-blur-sm select-none ${
             showNotification && !isOpen ? 'animate-[bounce_1s_ease-in-out_infinite]' : ''
           }`}
-          style={{boxShadow: '0 25px 50px -12px rgba(230, 57, 70, 0.4), 0 0 0 1px rgba(255,255,255,0.1)'}}
+          style={{
+            boxShadow: '0 25px 50px -12px rgba(230, 57, 70, 0.4), 0 0 0 1px rgba(255,255,255,0.1)',
+            touchAction: 'manipulation'
+          }}
           aria-label={isOpen ? 'Close chat' : 'Open chat'}
         >
-          {isOpen ? <X size={28} /> : <MessageCircle size={28} />}
+          {isOpen ? <X size={24} className="sm:w-7 sm:h-7" /> : <MessageCircle size={24} className="sm:w-7 sm:h-7" />}
 
           {/* Notification Badge */}
           {showNotification && !isOpen && (
@@ -165,12 +168,16 @@ const Chatbot: React.FC = () => {
         </button>
       </div>
       
-      {/* Chat Window */}
+      {/* Chat Window - Mobile Optimized */}
       <div
-        className={`fixed bottom-28 right-6 z-50 w-full max-w-md h-[65vh] bg-gradient-to-b from-white to-gray-50 border border-gray-200/50 shadow-2xl flex flex-col transition-all duration-500 ease-in-out backdrop-blur-xl ${
+        className={`fixed inset-x-4 bottom-4 sm:bottom-28 sm:right-6 sm:left-auto z-50 w-auto sm:w-full sm:max-w-md h-[80vh] sm:h-[65vh] bg-gradient-to-b from-white to-gray-50 border border-gray-200/50 shadow-2xl flex flex-col transition-all duration-500 ease-in-out backdrop-blur-xl ${
           isOpen ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-10 scale-95 pointer-events-none'
         }`}
-        style={{ borderRadius: '1.5rem', boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(255,255,255,0.1)' }}
+        style={{ 
+          borderRadius: '1.5rem', 
+          boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(255,255,255,0.1)',
+          maxHeight: 'calc(100dvh - 2rem)' /* Dynamic viewport height for mobile browsers */
+        }}
       >
         {/* Header */}
         <div className="flex justify-between items-center p-6 bg-gradient-to-r from-black via-[#2c3e50] to-[#457B9D] text-white border-b border-white/20 relative overflow-hidden" style={{borderTopLeftRadius: '1.5rem', borderTopRightRadius: '1.5rem'}}>
@@ -265,38 +272,44 @@ const Chatbot: React.FC = () => {
               <span className="font-medium">Listening... Speak now</span>
             </div>
           )}
-          <form onSubmit={handleSend} className="flex items-center space-x-3 relative z-10">
+          <form onSubmit={handleSend} className="flex items-center space-x-2 sm:space-x-3 relative z-10">
             <input
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder={isListening ? "Listening..." : "Ask AI Jannie anything..."}
-              className="w-full px-5 py-3 border-2 border-gray-300 rounded-full focus:ring-2 focus:ring-[#457B9D] focus:border-[#457B9D] transition-all duration-300 outline-none shadow-sm hover:shadow-md bg-white/90 backdrop-blur-sm font-medium"
+              className="w-full px-4 sm:px-5 py-2.5 sm:py-3 text-sm sm:text-base border-2 border-gray-300 rounded-full focus:ring-2 focus:ring-[#457B9D] focus:border-[#457B9D] transition-all duration-300 outline-none shadow-sm hover:shadow-md bg-white/90 backdrop-blur-sm font-medium"
+              style={{ fontSize: '16px' }} /* Prevent iOS zoom on input focus */
               disabled={isLoading || isListening}
+              autoComplete="off"
+              autoCorrect="off"
+              autoCapitalize="sentences"
             />
             {voiceSupported && (
               <button
                 type="button"
                 onClick={handleMicClick}
                 disabled={isLoading}
-                className={`p-4 rounded-full transition-all duration-300 transform hover:scale-110 shadow-lg ${
+                className={`p-3 sm:p-4 rounded-full transition-all duration-300 transform hover:scale-110 active:scale-95 shadow-lg select-none ${
                   isListening
                     ? 'bg-gradient-to-br from-[#E63946] to-[#D62837] text-white hover:from-[#D62837] hover:to-[#C5252F] animate-pulse'
                     : 'bg-gradient-to-br from-gray-100 to-gray-200 text-[#2c3e50] hover:from-[#457B9D] hover:to-[#2c3e50] hover:text-white'
                 } disabled:bg-gray-400 disabled:cursor-not-allowed disabled:transform-none`}
+                style={{ touchAction: 'manipulation' }}
                 aria-label={isListening ? 'Stop recording' : 'Start voice input'}
                 title={isListening ? 'Click to stop' : 'Click to speak'}
               >
-                {isListening ? <MicOff size={20} /> : <Mic size={20} />}
+                {isListening ? <MicOff size={18} className="sm:w-5 sm:h-5" /> : <Mic size={18} className="sm:w-5 sm:h-5" />}
               </button>
             )}
             <button
               type="submit"
               disabled={isLoading || !input.trim() || isListening}
-              className="bg-gradient-to-br from-[#E63946] to-[#D62837] text-white p-4 rounded-full hover:from-[#D62837] hover:to-[#C5252F] disabled:bg-gray-400 disabled:cursor-not-allowed transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-110 disabled:transform-none animate-pulse disabled:animate-none"
+              className="bg-gradient-to-br from-[#E63946] to-[#D62837] text-white p-3 sm:p-4 rounded-full hover:from-[#D62837] hover:to-[#C5252F] disabled:bg-gray-400 disabled:cursor-not-allowed transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-110 active:scale-95 disabled:transform-none animate-pulse disabled:animate-none select-none"
+              style={{ touchAction: 'manipulation' }}
               aria-label="Send message"
             >
-              <Send size={20} />
+              <Send size={18} className="sm:w-5 sm:h-5" />
             </button>
           </form>
         </div>

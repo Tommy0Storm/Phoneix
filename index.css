@@ -4,6 +4,74 @@
 
 body {
   font-family: 'Quicksand', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* Prevent iOS Safari zoom on input focus */
+  -webkit-text-size-adjust: 100%;
+  /* Smooth scrolling for mobile */
+  scroll-behavior: smooth;
+}
+
+/* iOS Safari specific fixes */
+@supports (-webkit-touch-callout: none) {
+  body {
+    /* Fix for iOS Safari bottom bar */
+    min-height: -webkit-fill-available;
+  }
+  
+  /* Prevent rubber band scrolling on iOS */
+  html {
+    overscroll-behavior-y: none;
+  }
+}
+
+/* Mobile touch improvements */
+@media (hover: none) and (pointer: coarse) {
+  /* Increase tap targets on mobile */
+  button, a {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Remove hover effects on touch devices */
+  .hover-desktop:hover {
+    transform: none !important;
+  }
+}
+
+/* Prevent text selection on interactive elements */
+button, .select-none {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Smooth transitions for mobile */
+* {
+  -webkit-tap-highlight-color: rgba(230, 57, 70, 0.1);
+}
+
+/* Fix for iOS Safari input zoom */
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+textarea {
+  font-size: 16px !important;
+}
+
+/* Improve scrolling on mobile */
+.overflow-y-auto {
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
+}
+
+/* Fix for mobile Safari 100vh issue */
+@supports (-webkit-touch-callout: none) {
+  .h-screen {
+    min-height: -webkit-fill-available;
+  }
 }
 
 /* Premium AI Jannie Chatbot Animations */
@@ -78,6 +146,7 @@ body {
 .phoenix-gradient-text {
   background: linear-gradient(45deg, #E63946, #457B9D, #E63946);
   background-size: 200% 200%;
+  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   animation: gradient-shift 3s ease-in-out infinite;
