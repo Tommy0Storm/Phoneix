@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useChat } from '../hooks/useChat';
-import { ChatIcon, CloseIcon, SendIcon } from './icons/ChatbotIcons';
+import { useVoiceRecognition } from '../hooks/useVoiceRecognition';
+import { ChatIcon, CloseIcon, SendIcon, MicrophoneIcon, MicrophoneActiveIcon } from './icons/ChatbotIcons';
 
 const Chatbot: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -8,17 +9,59 @@ const Chatbot: React.FC = () => {
   const [input, setInput] = useState('');
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
+  // Voice recognition
+  const {
+    isListening,
+    transcript,
+    isSupported: voiceSupported,
+    startListening,
+    stopListening,
+    resetTranscript,
+    error: voiceError,
+  } = useVoiceRecognition();
+
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
   useEffect(scrollToBottom, [messages, isLoading]);
 
+  // Update input when transcript changes
+  useEffect(() => {
+    if (transcript) {
+      setInput(transcript);
+    }
+  }, [transcript]);
+
+  // Auto-send when voice recording stops and there's a transcript
+  useEffect(() => {
+    if (!isListening && transcript && transcript.trim()) {
+      // Small delay to ensure transcript is complete
+      const timer = setTimeout(() => {
+        if (transcript.trim() && !isLoading) {
+          sendMessage(transcript);
+          setInput('');
+          resetTranscript();
+        }
+      }, 500);
+      return () => clearTimeout(timer);
+    }
+  }, [isListening, transcript, isLoading]);
+
   const handleSend = (e: React.FormEvent) => {
     e.preventDefault();
-    if (input.trim() && !isLoading) {
+    if (input.trim() && !isLoading && !isListening) {
       sendMessage(input);
       setInput('');
+      resetTranscript();
+    }
+  };
+
+  const handleMicClick = () => {
+    if (isListening) {
+      stopListening();
+    } else {
+      startListening();
     }
   };
 
@@ -82,18 +125,45 @@ const Chatbot: React.FC = () => {
 
         {/* Input */}
         <div className="p-4 border-t border-gray-200 bg-white" style={{borderBottomLeftRadius: '1rem', borderBottomRightRadius: '1rem'}}>
+          {voiceError && (
+            <div className="mb-2 p-2 bg-red-50 border border-red-200 rounded-lg text-red-700 text-xs">
+              {voiceError}
+            </div>
+          )}
+          {isListening && (
+            <div className="mb-2 p-2 bg-blue-50 border border-blue-200 rounded-lg text-blue-700 text-xs flex items-center">
+              <span className="mr-2">🎤</span>
+              <span>Listening... Speak now</span>
+            </div>
+          )}
           <form onSubmit={handleSend} className="flex items-center space-x-2">
             <input
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder="Ask a question..."
+              placeholder={isListening ? "Listening..." : "Ask a question or use voice..."}
               className="w-full px-4 py-2 border border-gray-300 rounded-full focus:ring-2 focus:ring-[#457B9D] focus:border-[#457B9D] transition-shadow duration-200 outline-none"
-              disabled={isLoading}
+              disabled={isLoading || isListening}
             />
+            {voiceSupported && (
+              <button
+                type="button"
+                onClick={handleMicClick}
+                disabled={isLoading}
+                className={`p-3 rounded-full transition-colors ${
+                  isListening
+                    ? 'bg-red-500 text-white hover:bg-red-600'
+                    : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                } disabled:bg-gray-400 disabled:cursor-not-allowed`}
+                aria-label={isListening ? 'Stop recording' : 'Start voice input'}
+                title={isListening ? 'Click to stop' : 'Click to speak'}
+              >
+                {isListening ? <MicrophoneActiveIcon /> : <MicrophoneIcon />}
+              </button>
+            )}
             <button
               type="submit"
-              disabled={isLoading || !input.trim()}
+              disabled={isLoading || !input.trim() || isListening}
               className="bg-[#E63946] text-white p-3 rounded-full hover:bg-[#D62837] disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
               aria-label="Send message"
             >
