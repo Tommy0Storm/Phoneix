@@ -22,19 +22,22 @@ const Hero: React.FC<HeroProps> = ({ onQuoteClick }) => {
       className="relative h-screen flex items-center justify-center text-center text-white bg-cover bg-center transition-all duration-700"
       style={{ backgroundImage: `url('${bgImage.url}')` }}
     >
-      <div className="absolute inset-0 bg-black opacity-60"></div>
+      <div className="absolute inset-0 bg-gradient-to-br from-black/70 via-black/50 to-black/70"></div>
+      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
       <div className="relative z-10 p-6">
-        <h1 className="text-4xl md:text-6xl font-bold uppercase tracking-widest mb-4" style={{fontFamily: "'Quicksand', sans-serif", fontWeight: 700}}>
-          Exceptional Craftsmanship.
+        <h1 className="text-5xl md:text-7xl font-bold uppercase tracking-[0.3em] mb-6 text-shadow-lg" style={{fontFamily: "'Quicksand', sans-serif", fontWeight: 700, textShadow: '2px 2px 4px rgba(0,0,0,0.5)'}}>
+          EXCEPTIONAL CRAFTSMANSHIP
         </h1>
-        <h2 className="text-lg md:text-2xl font-light mb-8 max-w-3xl mx-auto" style={{fontWeight: 400}}>
-          Premier handyman, construction, and automation services for discerning homeowners in Gauteng.
+        <div className="w-24 h-1 bg-gradient-to-r from-[#E63946] to-[#F77F00] mx-auto mb-8"></div>
+        <h2 className="text-xl md:text-3xl font-light mb-12 max-w-4xl mx-auto leading-relaxed" style={{fontWeight: 300, letterSpacing: '0.05em'}}>
+          Premier handyman, construction, and smart home automation services for discerning homeowners in Gauteng
         </h2>
         <button
           onClick={onQuoteClick}
-          className="bg-[#E63946] text-white font-semibold py-3 px-8 rounded-md hover:bg-[#D62837] transition-all duration-300 transform hover:scale-105 text-base uppercase tracking-wider"
+          className="bg-gradient-to-r from-[#E63946] to-[#D62837] text-white font-semibold py-4 px-12 rounded-none hover:from-[#D62837] hover:to-[#C5252F] transition-all duration-500 transform hover:scale-110 text-lg uppercase tracking-[0.2em] shadow-2xl hover:shadow-3xl border-2 border-white/20 backdrop-blur-sm"
+          style={{boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(255,255,255,0.1)'}}
         >
-          Get Your Free Consultation
+          GET PREMIUM CONSULTATION
         </button>
       </div>
     </section>

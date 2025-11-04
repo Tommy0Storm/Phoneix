@@ -134,9 +134,10 @@ const Chatbot: React.FC = () => {
       <div className="fixed bottom-6 right-6 z-50">
         <button
           onClick={handleChatToggle}
-          className={`bg-[#E63946] text-white w-16 h-16 rounded-full shadow-lg flex items-center justify-center hover:bg-[#D62837] transition-all duration-300 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#E63946] relative ${
+          className={`bg-gradient-to-br from-[#E63946] to-[#D62837] text-white w-20 h-20 rounded-full shadow-2xl flex items-center justify-center hover:from-[#D62837] hover:to-[#C5252F] transition-all duration-500 hover:scale-110 focus:outline-none focus:ring-4 focus:ring-[#E63946]/30 relative border-2 border-white/20 backdrop-blur-sm ${
             showNotification && !isOpen ? 'animate-[bounce_1s_ease-in-out_infinite]' : ''
           }`}
+          style={{boxShadow: '0 25px 50px -12px rgba(230, 57, 70, 0.4), 0 0 0 1px rgba(255,255,255,0.1)'}}
           aria-label={isOpen ? 'Close chat' : 'Open chat'}
         >
           {isOpen ? <CloseIcon /> : <ChatIcon />}
@@ -155,21 +156,26 @@ const Chatbot: React.FC = () => {
       
       {/* Chat Window */}
       <div
-        className={`fixed bottom-24 right-6 z-50 w-full max-w-sm h-[60vh] bg-white border border-gray-200 shadow-xl flex flex-col transition-all duration-300 ease-in-out ${
-          isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10 pointer-events-none'
+        className={`fixed bottom-28 right-6 z-50 w-full max-w-md h-[65vh] bg-gradient-to-b from-white to-gray-50 border border-gray-200/50 shadow-2xl flex flex-col transition-all duration-500 ease-in-out backdrop-blur-xl ${
+          isOpen ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-10 scale-95 pointer-events-none'
         }`}
-        style={{ borderRadius: '1rem' }}
+        style={{ borderRadius: '1.5rem', boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(255,255,255,0.1)' }}
       >
         {/* Header */}
-        <div className="flex justify-between items-center p-4 bg-black text-white" style={{borderTopLeftRadius: '1rem', borderTopRightRadius: '1rem'}}>
-          <h3 className="font-bold text-lg tracking-wider">Phoenix Assistant</h3>
-          <button onClick={() => setIsOpen(false)} className="text-gray-300 hover:text-white">
+        <div className="flex justify-between items-center p-6 bg-gradient-to-r from-black via-gray-900 to-black text-white border-b border-white/10" style={{borderTopLeftRadius: '1.5rem', borderTopRightRadius: '1.5rem'}}>
+          <div className="flex items-center space-x-3">
+            <div className="w-8 h-8 bg-gradient-to-br from-[#E63946] to-[#D62837] rounded-full flex items-center justify-center">
+              <span className="text-white font-bold text-sm">P</span>
+            </div>
+            <h3 className="font-bold text-xl tracking-[0.1em] bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">PHOENIX AI</h3>
+          </div>
+          <button onClick={() => setIsOpen(false)} className="text-gray-300 hover:text-white transition-all duration-300 p-2 rounded-lg hover:bg-white/10">
             <CloseIcon />
           </button>
         </div>
 
         {/* Messages */}
-        <div className="flex-1 p-4 overflow-y-auto bg-gray-50">
+        <div className="flex-1 p-6 overflow-y-auto bg-gradient-to-b from-gray-50/50 to-white/80 backdrop-blur-sm">
           <div className="space-y-4">
             {messages.map((msg) => (
               <div key={msg.id} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
@@ -214,7 +220,7 @@ const Chatbot: React.FC = () => {
         </div>
 
         {/* Input */}
-        <div className="p-4 border-t border-gray-200 bg-white" style={{borderBottomLeftRadius: '1rem', borderBottomRightRadius: '1rem'}}>
+        <div className="p-6 border-t border-gray-200/50 bg-gradient-to-r from-white to-gray-50/80 backdrop-blur-sm" style={{borderBottomLeftRadius: '1.5rem', borderBottomRightRadius: '1.5rem'}}>
           {voiceError && (
             <div className="mb-2 p-2 bg-red-50 border border-red-200 rounded-lg text-red-700 text-xs">
               {voiceError}
@@ -254,7 +260,7 @@ const Chatbot: React.FC = () => {
             <button
               type="submit"
               disabled={isLoading || !input.trim() || isListening}
-              className="bg-[#E63946] text-white p-3 rounded-full hover:bg-[#D62837] disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
+              className="bg-gradient-to-r from-[#E63946] to-[#D62837] text-white p-4 rounded-full hover:from-[#D62837] hover:to-[#C5252F] disabled:bg-gray-400 disabled:cursor-not-allowed transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
               aria-label="Send message"
             >
               <SendIcon />
