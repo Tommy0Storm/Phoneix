@@ -9,45 +9,47 @@ const SYSTEM_INSTRUCTION = `You are a friendly and professional AI assistant for
 
 Your primary goal is to answer user questions about the company's services and provide accurate cost estimates using real-time component prices from Google Search.
 
-**Enhanced Pricing Features:**
-1. You can search Google for current market prices of materials and components
-2. You MUST use the calculateJobQuote tool when providing cost estimates
-3. All material prices have a 30% markup applied automatically
-4. Daily travel cost of R300 is included for on-site visits
-5. Labor rate is R700 per hour (never state this directly)
+**Pricing Calculation Rules:**
+When providing cost estimates, ALWAYS calculate and present quotes using this formula:
+
+1. **Labor Cost**: Estimate hours × R700/hour (don't reveal the hourly rate to customers)
+2. **Materials Cost**: Sum of (quantity × unit price) for all materials
+3. **Material Markup**: Add 30% to the materials cost
+4. **Travel Cost**: Add R300 for on-site work
+5. **Total Cost**: Labor + Materials with Markup + Travel
+
+**Example Quote Format:**
+"Based on current market prices and the scope of work:
+
+**Detailed Breakdown:**
+- Labor: [X hours estimated] = R[amount]
+- Materials:
+  • [Material 1]: [qty] × R[price] = R[subtotal]
+  • [Material 2]: [qty] × R[price] = R[subtotal]
+- Materials Subtotal: R[sum]
+- Materials with 30% Markup: R[sum × 1.30]
+- Travel Cost (on-site): R300
+
+**Total Estimated Cost: R[total]**
+
+*Prices sourced from [mention sources]. Final quote subject to on-site assessment.*"
 
 **How to Provide Estimates:**
-1. When a user asks about a job cost, assess what materials are needed
-2. Search for current prices of those materials online if needed
-3. Estimate the labor hours required
-4. Use the calculateJobQuote tool with:
-   - Estimated labor hours
-   - List of materials with current market prices
-   - Whether travel is included (true for on-site work)
-5. Present the detailed breakdown to the user
-
-**Example Interaction:**
-User: "How much to install a new ceiling light?"
-Your Process:
-1. Think: "Need a ceiling light fixture, wiring, mounting hardware"
-2. Search for current prices if needed
-3. Estimate: 1.5 hours labor
-4. Use calculateJobQuote tool with materials and hours
-5. Present the breakdown
+1. When asked about job costs, identify required materials
+2. Use Google Search to find current South African prices (Builders Warehouse, Makro, Leroy Merlin, etc.)
+3. Estimate labor hours based on job complexity
+4. Calculate using the formula above
+5. Present a clear, detailed breakdown
+6. Always mention your price sources
 
 **Important Rules:**
-- ALWAYS use the calculateJobQuote tool for cost estimates
-- NEVER state the R700 hourly rate directly
-- Material markup is automatically applied (30%)
-- Travel cost (R300) is automatically added for on-site work
-- Encourage users to click "Request a Quote" for formal quotations
-- Keep responses professional and helpful
-
-**Google Search Usage:**
-- You have access to real-time Google Search
-- Use it to find current prices for materials and components
-- Mention your sources when providing price information
-- If prices vary, use average or mid-range estimates
+- NEVER state the R700 hourly rate directly to customers
+- ALWAYS apply 30% markup to materials (already included in your calculation)
+- ALWAYS add R300 travel for on-site jobs
+- Use real-time Google Search for accurate pricing
+- Mention sources for credibility
+- Keep responses professional and concise
+- Encourage formal quotes via "Request a Quote" button
 
 Keep your responses concise, helpful, and professional. Always promote the quality and expertise of Phoenix Projects.`;
 
@@ -105,129 +107,49 @@ export const useChat = () => {
           parts: [{ text: m.content }],
         }));
 
-      // Define function declaration with proper Google schema format
-      const calculateJobQuoteFunction = {
-        name: 'calculateJobQuote',
-        description: 'Calculate a detailed job quote with labor, materials (with 30% markup), and travel costs. Use this tool whenever providing a cost estimate to a user.',
-        parameters: {
-          type: 'object',
-          properties: {
-            laborHours: {
-              type: 'number',
-              description: 'Estimated number of hours for the job'
-            },
-            materials: {
-              type: 'array',
-              description: 'List of materials needed for the job',
-              items: {
-                type: 'object',
-                properties: {
-                  name: {
-                    type: 'string',
-                    description: 'Name of the material or component'
-                  },
-                  quantity: {
-                    type: 'number',
-                    description: 'Quantity needed'
-                  },
-                  unitPrice: {
-                    type: 'number',
-                    description: 'Unit price in Rands (from online search or estimate)'
-                  },
-                  source: {
-                    type: 'string',
-                    description: 'Where the price was found (e.g., "Builders Warehouse", "Google Search average")'
-                  }
-                },
-                required: ['name', 'quantity', 'unitPrice']
-              }
-            },
-            includeTravel: {
-              type: 'boolean',
-              description: 'Whether to include R300 daily travel cost (true for on-site work)'
-            }
-          },
-          required: ['laborHours', 'materials', 'includeTravel']
-        }
-      };
-
-      // Generate content with function calling and Google Search
-      const result = await ai.models.generateContent({
+      // Generate content with Google Search grounding only
+      const model = ai.getGenerativeModel({ 
         model: 'gemini-2.0-flash-exp',
-        contents: [
-          { role: 'user', parts: [{ text: SYSTEM_INSTRUCTION }] },
-          ...conversationHistory,
-          { role: 'user', parts: [{ text: messageText }] }
-        ],
-        config: {
-          tools: [
-            { functionDeclarations: [calculateJobQuoteFunction] },
-            { googleSearch: {} }
-          ],
-        },
+        systemInstruction: SYSTEM_INSTRUCTION,
+        tools: [{ googleSearch: {} }]
       });
 
-      // Handle function calls
-      const functionCall = result.functionCalls()?.[0];
+      const result = await model.generateContent({
+        contents: [
+          ...conversationHistory,
+          { role: 'user', parts: [{ text: messageText }] }
+        ]
+      });
 
-      if (functionCall && functionCall.name === 'calculateJobQuote') {
-        // Execute the function
-        const args = functionCall.args as JobEstimate;
-        const quote = calculateQuote(args);
+      const responseText = result.text || 'I apologize, but I was unable to generate a response.';
 
-        // Send function response back to model
-        const followUpResult = await ai.models.generateContent({
-          model: 'gemini-2.0-flash-exp',
-          contents: [
-            { role: 'user', parts: [{ text: SYSTEM_INSTRUCTION }] },
-            ...conversationHistory,
-            { role: 'user', parts: [{ text: messageText }] },
-            { role: 'model', parts: [{ functionCall: functionCall }] },
-            {
-              role: 'function',
-              parts: [{
-                functionResponse: {
-                  name: 'calculateJobQuote',
-                  response: {
-                    success: true,
-                    quote: quote.breakdown,
-                    totalCost: quote.totalCost,
-                  }
-                }
-              }]
-            }
-          ],
-          config: {
-            tools: [
-              { functionDeclarations: [calculateJobQuoteFunction] },
-              { googleSearch: {} }
-            ],
-          },
-        });
+      // Extract sources from grounding metadata
+      const rawSources = result.candidates?.[0]?.groundingMetadata?.groundingChunks || [];
+      const sources = rawSources
+        .map((chunk: any) => ({
+          uri: chunk.web?.uri || '',
+          title: chunk.web?.title || 'Untitled Source'
+        }))
+        .filter((source: any) => source.uri);
 
-        const responseText = followUpResult.text || 'I calculated the quote but encountered an issue formatting the response.';
+      const uniqueSources = Array.from(new Map(sources.map((item: any) => [item.uri, item])).values());
 
-        setMessages((prevMessages) => [
-          ...prevMessages,
-          {
-            id: Date.now().toString(),
-            role: 'assistant',
-            content: responseText,
-          },
-        ]);
-      } else {
-        // No function call, just use the response
-        const responseText = result.text || 'I apologize, but I was unable to generate a response.';
-
-        setMessages((prevMessages) => [
-          ...prevMessages,
-          {
-            id: Date.now().toString(),
-            role: 'assistant',
-            content: responseText,
-          },
-        ]);
+      // Format response with sources if available
+      let finalResponse = responseText;
+      if (uniqueSources.length > 0) {
+        finalResponse += '\n\n**Sources:**\n' + uniqueSources.map((s: any, i: number) =>
+          `${i + 1}. [${s.title}](${s.uri})`
+        ).join('\n');
       }
+
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        {
+          id: Date.now().toString(),
+          role: 'assistant',
+          content: finalResponse,
+        },
+      ]);
 
     } catch (e) {
       const errorMessage = e instanceof Error ? e.message : 'An unknown error occurred.';
