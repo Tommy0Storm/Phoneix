@@ -7,7 +7,7 @@ const About: React.FC = () => {
         {/* Header */}
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold uppercase tracking-widest text-black mb-4">
-            About Phoenix Projects
+            ◆ About Phoenix Projects
           </h2>
           <div className="w-24 h-1 bg-gradient-to-r from-[#E63946] to-[#457B9D] mx-auto"></div>
         </div>
@@ -72,7 +72,7 @@ const About: React.FC = () => {
             <div className="space-y-6">
               <div className="bg-gradient-to-r from-[#E63946]/10 to-[#457B9D]/10 p-6 rounded-xl border-l-4 border-[#E63946]">
                 <h3 className="text-2xl font-bold text-[#2c3e50] mb-4 flex items-center">
-                  <span className="mr-3 text-[#E63946]">▲</span>
+                  <span className="mr-3 text-[#E63946]">◆</span>
                   Our Story: Building Trust Since 2009
                 </h3>
                 <p className="text-gray-700 leading-relaxed text-lg">
@@ -91,8 +91,8 @@ const About: React.FC = () => {
 
               <div className="bg-gradient-to-r from-[#457B9D] to-[#2c3e50] p-6 rounded-xl text-white shadow-xl">
                 <div className="flex items-center mb-3">
-                  <span className="text-2xl mr-3">▼</span>
-                  <h4 className="text-xl font-bold">Our Promise</h4>
+                  <span className="text-2xl mr-3">●</span>
+                  <h4 className="text-xl font-bold">▲ Our Promise</h4>
                 </div>
                 <p className="text-lg font-medium">
                   At Phoenix Projects, we aren't just building structures; we are building lasting relationships based on trust.
@@ -104,18 +104,18 @@ const About: React.FC = () => {
 
         {/* Contact CTA */}
         <div className="text-center bg-gradient-to-r from-[#E63946] to-[#D62837] p-8 rounded-2xl text-white shadow-2xl">
-          <h3 className="text-2xl font-bold mb-4">Ready to Start Your Project?</h3>
+          <h3 className="text-2xl font-bold mb-4">◆ Ready to Start Your Project?</h3>
           <p className="text-lg mb-6 opacity-90">
-            Experience the Phoenix Projects difference. Let Andrew and his team bring your vision to life.
+            ▲ Experience the Phoenix Projects difference. Let Andrew and his team bring your vision to life.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <a 
               href="tel:0794635951" 
               className="bg-white text-[#E63946] px-8 py-3 rounded-full font-bold text-lg hover:bg-gray-100 transition-all duration-300 transform hover:scale-105 shadow-lg"
             >
-              Call Andrew: 079 463 5951
+              ◆ Call Andrew: 079 463 5951
             </a>
-            <span className="text-white/80">or chat with AI Jannie below!</span>
+            <span className="text-white/80">or chat with ◆ AI Jannie below!</span>
           </div>
         </div>
       </div>

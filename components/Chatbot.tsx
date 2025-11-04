@@ -112,10 +112,10 @@ const Chatbot: React.FC = () => {
               ×
             </button>
             <div className="flex items-start space-x-3">
-              <div className="flex-shrink-0 text-3xl">▲</div>
+              <div className="flex-shrink-0 text-3xl">◆</div>
               <div>
                 <h4 className="font-bold text-gray-800 mb-1">
-                  {isFirstVisit ? 'Welcome to Phoenix Projects!' : 'Welcome back!'}
+                  {isFirstVisit ? '▲ Welcome to Phoenix Projects!' : '● Welcome back!'}
                 </h4>
                 <p className="text-sm text-gray-600">
                   {isFirstVisit
@@ -179,8 +179,8 @@ const Chatbot: React.FC = () => {
               </div>
             </div>
             <div className="flex flex-col">
-              <h3 className="font-bold text-xl tracking-[0.1em] bg-gradient-to-r from-white via-[#E63946] to-white bg-clip-text text-transparent animate-pulse">AI JANNIE</h3>
-              <span className="text-xs text-gray-300">Phoenix Projects Advisor</span>
+              <h3 className="font-bold text-xl tracking-[0.1em] bg-gradient-to-r from-white via-[#E63946] to-white bg-clip-text text-transparent animate-pulse">◆ AI JANNIE</h3>
+              <span className="text-xs text-gray-300">▲ Phoenix Projects Advisor</span>
             </div>
           </div>
           <button onClick={() => setIsOpen(false)} className="text-gray-300 hover:text-white transition-all duration-300 p-2 rounded-lg hover:bg-white/20 hover:scale-110 transform relative z-10">
