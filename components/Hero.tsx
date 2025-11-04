@@ -30,20 +30,22 @@ const Hero: React.FC<HeroProps> = ({ onQuoteClick }) => {
           <div className="relative">
             <div className="absolute -inset-2 bg-gradient-to-r from-[#E63946] via-[#457B9D] to-[#E63946] rounded-full opacity-30 blur-lg animate-pulse"></div>
             <div className="relative bg-white/10 backdrop-blur-xl p-6 rounded-full border border-white/20">
-              {/* Circular overlays */}
-              <div className="absolute inset-0 overflow-hidden rounded-full">
-                <div className="absolute top-4 left-6 w-12 h-12 bg-gradient-to-br from-[#E63946]/25 to-transparent rounded-full animate-pulse"></div>
-                <div className="absolute top-8 right-8 w-10 h-10 bg-gradient-to-br from-[#457B9D]/30 to-transparent rounded-full animate-pulse" style={{animationDelay: '0.5s'}}></div>
-                <div className="absolute bottom-6 left-8 w-8 h-8 bg-gradient-to-br from-white/25 to-transparent rounded-full animate-pulse" style={{animationDelay: '1s'}}></div>
-                <div className="absolute bottom-4 right-6 w-14 h-14 bg-gradient-to-br from-[#E63946]/20 to-transparent rounded-full animate-pulse" style={{animationDelay: '1.5s'}}></div>
-                <div className="absolute top-1/2 left-4 w-6 h-6 bg-gradient-to-br from-[#457B9D]/35 to-transparent rounded-full animate-pulse" style={{animationDelay: '2s'}}></div>
-              </div>
+              {/* Logo in background */}
               <img 
                 src="/Phoneix/logo.png" 
                 alt="Phoenix Projects Logo" 
-                className="w-64 h-64 md:w-80 md:h-80 object-contain filter drop-shadow-2xl hover:scale-110 transition-transform duration-500 relative z-10"
+                className="w-64 h-64 md:w-80 md:h-80 object-contain filter drop-shadow-2xl hover:scale-110 transition-transform duration-500 absolute inset-0 z-0 opacity-60"
                 style={{background: 'transparent'}}
               />
+              {/* Circular overlays on top */}
+              <div className="relative z-10 w-64 h-64 md:w-80 md:h-80">
+                <div className="absolute top-4 left-6 w-12 h-12 bg-gradient-to-br from-[#E63946]/40 to-transparent rounded-full animate-pulse"></div>
+                <div className="absolute top-8 right-8 w-10 h-10 bg-gradient-to-br from-[#457B9D]/45 to-transparent rounded-full animate-pulse" style={{animationDelay: '0.5s'}}></div>
+                <div className="absolute bottom-6 left-8 w-8 h-8 bg-gradient-to-br from-white/35 to-transparent rounded-full animate-pulse" style={{animationDelay: '1s'}}></div>
+                <div className="absolute bottom-4 right-6 w-14 h-14 bg-gradient-to-br from-[#E63946]/30 to-transparent rounded-full animate-pulse" style={{animationDelay: '1.5s'}}></div>
+                <div className="absolute top-1/2 left-4 w-6 h-6 bg-gradient-to-br from-[#457B9D]/50 to-transparent rounded-full animate-pulse" style={{animationDelay: '2s'}}></div>
+                <div className="absolute top-1/3 right-1/4 w-9 h-9 bg-gradient-to-br from-[#E63946]/35 to-transparent rounded-full animate-pulse" style={{animationDelay: '2.5s'}}></div>
+              </div>
             </div>
           </div>
         </div>

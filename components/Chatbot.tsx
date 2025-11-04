@@ -167,22 +167,23 @@ const Chatbot: React.FC = () => {
           <div className="absolute inset-0 bg-gradient-to-r from-[#E63946]/20 via-transparent to-[#457B9D]/20 animate-pulse"></div>
           <div className="flex items-center space-x-3 relative z-10">
             <div className="relative">
-              {/* Phoenix logo for AI Jannie */}
+              {/* Phoenix logo for AI Jannie - background with overlays */}
               <div className="absolute -inset-1 bg-gradient-to-r from-[#E63946] to-[#D62837] rounded-full opacity-50 blur-sm animate-pulse"></div>
-              <div className="relative w-40 h-40 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center p-4">
-                {/* Circular overlays */}
-                <div className="absolute inset-0 overflow-hidden rounded-full">
-                  <div className="absolute top-2 left-4 w-6 h-6 bg-gradient-to-br from-[#E63946]/40 to-transparent rounded-full animate-pulse"></div>
-                  <div className="absolute top-4 right-3 w-5 h-5 bg-gradient-to-br from-[#457B9D]/30 to-transparent rounded-full animate-pulse" style={{animationDelay: '0.5s'}}></div>
-                  <div className="absolute bottom-3 left-3 w-4 h-4 bg-gradient-to-br from-white/30 to-transparent rounded-full animate-pulse" style={{animationDelay: '1s'}}></div>
-                  <div className="absolute bottom-2 right-4 w-7 h-7 bg-gradient-to-br from-[#E63946]/25 to-transparent rounded-full animate-pulse" style={{animationDelay: '1.5s'}}></div>
-                </div>
+              <div className="relative w-20 h-20 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center p-2">
+                {/* Logo in background */}
                 <img 
                   src="/Phoneix/logo.png" 
                   alt="Phoenix Projects" 
-                  className="w-full h-full object-contain filter drop-shadow-lg relative z-10"
+                  className="w-full h-full object-contain filter drop-shadow-lg absolute inset-0 z-0 opacity-60"
                   style={{background: 'transparent'}}
                 />
+                {/* Circular overlays on top */}
+                <div className="relative z-10 w-full h-full">
+                  <div className="absolute top-1 left-2 w-3 h-3 bg-gradient-to-br from-[#E63946]/40 to-transparent rounded-full animate-pulse"></div>
+                  <div className="absolute top-2 right-1 w-2 h-2 bg-gradient-to-br from-[#457B9D]/30 to-transparent rounded-full animate-pulse" style={{animationDelay: '0.5s'}}></div>
+                  <div className="absolute bottom-1 left-1 w-2 h-2 bg-gradient-to-br from-white/30 to-transparent rounded-full animate-pulse" style={{animationDelay: '1s'}}></div>
+                  <div className="absolute bottom-1 right-2 w-3 h-3 bg-gradient-to-br from-[#E63946]/25 to-transparent rounded-full animate-pulse" style={{animationDelay: '1.5s'}}></div>
+                </div>
               </div>
             </div>
             <div className="flex flex-col">
