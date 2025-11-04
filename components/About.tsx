@@ -20,12 +20,39 @@ const About: React.FC = () => {
               {/* Premium frame effect */}
               <div className="absolute -inset-4 bg-gradient-to-r from-[#E63946] via-[#457B9D] to-[#E63946] rounded-2xl opacity-20 blur-lg"></div>
               <div className="relative bg-white p-6 rounded-2xl shadow-2xl transform hover:scale-105 transition-all duration-500">
-                <div className="relative h-96 overflow-hidden rounded-xl">
+                <div className="relative h-96 overflow-hidden rounded-xl bg-gray-100 flex items-center justify-center">
+                  {/* Try multiple image sources */}
                   <img
                     src="/Phoneix/andrew.jpg"
                     alt="Andrew Truter - Founder & Owner of Phoenix Projects"
                     className="w-full h-full object-cover transition-transform duration-700 hover:scale-110"
-                    loading="lazy"
+                    loading="eager"
+                    onError={(e) => {
+                      console.log('Primary image failed, trying fallback');
+                      const img = e.target as HTMLImageElement;
+                      // Try without the base path
+                      img.src = './andrew.jpg';
+                      img.onerror = () => {
+                        console.log('Fallback also failed, showing placeholder');
+                        const parent = img.parentElement;
+                        if (parent) {
+                          parent.innerHTML = `
+                            <div class="w-full h-full bg-gradient-to-br from-[#E63946]/20 to-[#457B9D]/20 flex items-center justify-center">
+                              <div class="text-center">
+                                <div class="w-24 h-24 bg-gradient-to-br from-[#E63946] to-[#D62837] rounded-full flex items-center justify-center mx-auto mb-6 shadow-xl">
+                                  <span class="text-white font-bold text-3xl">AT</span>
+                                </div>
+                                <h3 class="text-xl font-bold text-[#2c3e50] mb-2">Andrew Truter</h3>
+                                <p class="text-[#457B9D] font-semibold">Founder & Owner</p>
+                                <p class="text-gray-600 text-sm mt-1">Building Excellence Since 2009</p>
+                                <p class="text-xs text-gray-500 mt-2">Professional Photo Loading...</p>
+                              </div>
+                            </div>
+                          `;
+                        }
+                      };
+                    }}
+                    onLoad={() => console.log('Andrew image loaded successfully')}
                   />
                   {/* Professional overlay */}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent"></div>
