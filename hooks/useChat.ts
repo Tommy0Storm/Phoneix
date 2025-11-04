@@ -1,9 +1,7 @@
 import { useState, useEffect } from 'react';
-import { createGoogleGenerativeAI } from '@ai-sdk/google';
-import { streamText, tool } from 'ai';
+import { GoogleGenAI } from '@google/genai';
 import type { Message } from '../types';
 import { calculateQuote, type JobEstimate } from '../utils/pricing';
-import { z } from 'zod';
 
 const SYSTEM_INSTRUCTION = `You are a friendly and professional AI assistant for Phoenix Projects, a premium handyman, construction, and home automation company in Gauteng, South Africa. The owner is Andrew Truter, and you can reach him at:
 - Phone: 079 463 5951
@@ -97,96 +95,151 @@ export const useChat = () => {
     setMessages((prevMessages) => [...prevMessages, userMessage]);
 
     try {
-      const google = createGoogleGenerativeAI({ apiKey });
+      const ai = new GoogleGenAI({ apiKey });
 
-      // Add placeholder for assistant message
-      const assistantMessageId = (Date.now() + 1).toString();
-      setMessages((prevMessages) => [
-        ...prevMessages,
-        { id: assistantMessageId, role: 'assistant', content: '' },
-      ]);
-
-      // Prepare conversation history for the AI
+      // Prepare conversation history
       const conversationHistory = messages
         .filter(m => m.id !== 'initial')
         .map(m => ({
-          role: m.role === 'assistant' ? 'assistant' as const : 'user' as const,
-          content: m.content,
+          role: m.role === 'user' ? 'user' : 'model',
+          parts: [{ text: m.content }],
         }));
 
-      // Define the quote calculation tool
-      const tools = {
-        calculateJobQuote: tool({
-          description: 'Calculate a detailed job quote with labor, materials (with 30% markup), and travel costs. Use this tool whenever providing a cost estimate to a user.',
-          parameters: z.object({
-            laborHours: z.number().describe('Estimated number of hours for the job'),
-            materials: z.array(z.object({
-              name: z.string().describe('Name of the material or component'),
-              quantity: z.number().describe('Quantity needed'),
-              unitPrice: z.number().describe('Unit price in Rands (from online search or estimate)'),
-              source: z.string().optional().describe('Where the price was found (e.g., "Builders Warehouse", "Google Search average")'),
-            })).describe('List of materials needed for the job'),
-            includeTravel: z.boolean().describe('Whether to include R300 daily travel cost (true for on-site work)'),
-          }),
-          execute: async ({ laborHours, materials, includeTravel }: JobEstimate) => {
-            const quote = calculateQuote({ laborHours, materials, includeTravel });
-            return {
-              success: true,
-              quote: quote.breakdown,
-              totalCost: quote.totalCost,
-            };
+      // Define function declaration with proper Google schema format
+      const calculateJobQuoteFunction = {
+        name: 'calculateJobQuote',
+        description: 'Calculate a detailed job quote with labor, materials (with 30% markup), and travel costs. Use this tool whenever providing a cost estimate to a user.',
+        parameters: {
+          type: 'object',
+          properties: {
+            laborHours: {
+              type: 'number',
+              description: 'Estimated number of hours for the job'
+            },
+            materials: {
+              type: 'array',
+              description: 'List of materials needed for the job',
+              items: {
+                type: 'object',
+                properties: {
+                  name: {
+                    type: 'string',
+                    description: 'Name of the material or component'
+                  },
+                  quantity: {
+                    type: 'number',
+                    description: 'Quantity needed'
+                  },
+                  unitPrice: {
+                    type: 'number',
+                    description: 'Unit price in Rands (from online search or estimate)'
+                  },
+                  source: {
+                    type: 'string',
+                    description: 'Where the price was found (e.g., "Builders Warehouse", "Google Search average")'
+                  }
+                },
+                required: ['name', 'quantity', 'unitPrice']
+              }
+            },
+            includeTravel: {
+              type: 'boolean',
+              description: 'Whether to include R300 daily travel cost (true for on-site work)'
+            }
           },
-        }),
+          required: ['laborHours', 'materials', 'includeTravel']
+        }
       };
 
-      // Stream the response with Google Search grounding
-      // Note: Search grounding is disabled when using tools due to API limitations
-      const result = await streamText({
-        model: google('gemini-2.0-flash-exp'),
-        system: SYSTEM_INSTRUCTION,
-        messages: [
+      // Generate content with function calling and Google Search
+      const result = await ai.models.generateContent({
+        model: 'gemini-2.0-flash-exp',
+        contents: [
+          { role: 'user', parts: [{ text: SYSTEM_INSTRUCTION }] },
           ...conversationHistory,
-          { role: 'user', content: messageText },
+          { role: 'user', parts: [{ text: messageText }] }
         ],
-        tools,
-        maxSteps: 5, // Allow multiple tool calls
+        config: {
+          tools: [
+            { functionDeclarations: [calculateJobQuoteFunction] },
+            { googleSearch: {} }
+          ],
+        },
       });
 
-      // Handle streaming with tool calls
-      let fullResponse = '';
-      for await (const part of result.fullStream) {
-        if (part.type === 'text-delta') {
-          fullResponse += part.textDelta;
+      // Handle function calls
+      const functionCall = result.functionCalls()?.[0];
 
-          setMessages((prevMessages) => {
-            const newMessages = [...prevMessages];
-            const lastMessage = newMessages[newMessages.length - 1];
-            if (lastMessage.role === 'assistant' && lastMessage.id === assistantMessageId) {
-              lastMessage.content = fullResponse;
+      if (functionCall && functionCall.name === 'calculateJobQuote') {
+        // Execute the function
+        const args = functionCall.args as JobEstimate;
+        const quote = calculateQuote(args);
+
+        // Send function response back to model
+        const followUpResult = await ai.models.generateContent({
+          model: 'gemini-2.0-flash-exp',
+          contents: [
+            { role: 'user', parts: [{ text: SYSTEM_INSTRUCTION }] },
+            ...conversationHistory,
+            { role: 'user', parts: [{ text: messageText }] },
+            { role: 'model', parts: [{ functionCall: functionCall }] },
+            {
+              role: 'function',
+              parts: [{
+                functionResponse: {
+                  name: 'calculateJobQuote',
+                  response: {
+                    success: true,
+                    quote: quote.breakdown,
+                    totalCost: quote.totalCost,
+                  }
+                }
+              }]
             }
-            return newMessages;
-          });
-        } else if (part.type === 'tool-result') {
-          // Tool results are incorporated into the text automatically
-          // Just continue streaming
-        }
+          ],
+          config: {
+            tools: [
+              { functionDeclarations: [calculateJobQuoteFunction] },
+              { googleSearch: {} }
+            ],
+          },
+        });
+
+        const responseText = followUpResult.text || 'I calculated the quote but encountered an issue formatting the response.';
+
+        setMessages((prevMessages) => [
+          ...prevMessages,
+          {
+            id: Date.now().toString(),
+            role: 'assistant',
+            content: responseText,
+          },
+        ]);
+      } else {
+        // No function call, just use the response
+        const responseText = result.text || 'I apologize, but I was unable to generate a response.';
+
+        setMessages((prevMessages) => [
+          ...prevMessages,
+          {
+            id: Date.now().toString(),
+            role: 'assistant',
+            content: responseText,
+          },
+        ]);
       }
 
     } catch (e) {
       const errorMessage = e instanceof Error ? e.message : 'An unknown error occurred.';
       setError(new Error(errorMessage));
-      setMessages((prevMessages) => {
-        // Remove the placeholder message and add error message
-        const filtered = prevMessages.filter(m => m.content !== '');
-        return [
-          ...filtered,
-          {
-            id: Date.now().toString(),
-            role: 'assistant',
-            content: `I'm sorry, I've encountered an error. Please try again later. Details: ${errorMessage}`,
-          },
-        ];
-      });
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        {
+          id: Date.now().toString(),
+          role: 'assistant',
+          content: `I'm sorry, I've encountered an error. Please try again later. Details: ${errorMessage}`,
+        },
+      ]);
     } finally {
       setIsLoading(false);
     }
