@@ -33,25 +33,25 @@ const Hero: React.FC<HeroProps> = ({ onQuoteClick }) => {
               <img 
                 src="/Phoneix/logo.png" 
                 alt="Phoenix Projects Logo" 
-                className="w-32 h-32 md:w-40 md:h-40 object-contain filter drop-shadow-2xl hover:scale-110 transition-transform duration-500 opacity-85 hover:opacity-100"
-                style={{mixBlendMode: 'multiply'}}
+                className="w-32 h-32 md:w-40 md:h-40 object-contain filter drop-shadow-2xl hover:scale-110 transition-transform duration-500"
+                style={{background: 'transparent'}}
               />
             </div>
           </div>
         </div>
         <h1 className="text-5xl md:text-7xl font-bold uppercase tracking-[0.3em] mb-6 text-shadow-lg" style={{fontFamily: "'Quicksand', sans-serif", fontWeight: 700, textShadow: '2px 2px 4px rgba(0,0,0,0.5)'}}>
-          🏗️ EXCEPTIONAL CRAFTSMANSHIP
+          EXCEPTIONAL CRAFTSMANSHIP
         </h1>
         <div className="w-24 h-1 bg-gradient-to-r from-[#E63946] to-[#F77F00] mx-auto mb-8"></div>
         <h2 className="text-xl md:text-3xl font-light mb-12 max-w-4xl mx-auto leading-relaxed" style={{fontWeight: 300, letterSpacing: '0.05em'}}>
-          ⭐ Premier handyman, construction, and smart home automation services for discerning homeowners in Gauteng
+          Premier handyman, construction, and smart home automation services for discerning homeowners in Gauteng
         </h2>
         <button
           onClick={onQuoteClick}
           className="bg-gradient-to-r from-[#E63946] to-[#D62837] text-white font-semibold py-4 px-12 rounded-none hover:from-[#D62837] hover:to-[#C5252F] transition-all duration-500 transform hover:scale-110 text-lg uppercase tracking-[0.2em] shadow-2xl hover:shadow-3xl border-2 border-white/20 backdrop-blur-sm"
           style={{boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(255,255,255,0.1)'}}
         >
-          💎 GET PREMIUM CONSULTATION
+          GET PREMIUM CONSULTATION
         </button>
       </div>
     </section>

@@ -112,15 +112,15 @@ const Chatbot: React.FC = () => {
               ×
             </button>
             <div className="flex items-start space-x-3">
-              <div className="flex-shrink-0 text-3xl">🤖</div>
+              <div className="flex-shrink-0 text-3xl">▲</div>
               <div>
                 <h4 className="font-bold text-gray-800 mb-1">
-                  {isFirstVisit ? '🚀 Welcome to Phoenix Projects!' : '✨ Welcome back!'}
+                  {isFirstVisit ? 'Welcome to Phoenix Projects!' : 'Welcome back!'}
                 </h4>
                 <p className="text-sm text-gray-600">
                   {isFirstVisit
-                    ? '💡 I can help you with instant quotes using real-time pricing! Click to chat or use voice input 🎤'
-                    : '⚡ Need a quote? I have access to real-time pricing and can use voice commands! 📞'}
+                    ? 'I can help you with instant quotes using real-time pricing! Click to chat or use voice input'
+                    : 'Need a quote? I have access to real-time pricing and can use voice commands!'}
                 </p>
               </div>
             </div>
@@ -173,14 +173,14 @@ const Chatbot: React.FC = () => {
                 <img 
                   src="/Phoneix/logo.png" 
                   alt="Phoenix Projects" 
-                  className="w-full h-full object-contain filter drop-shadow-lg opacity-90"
-                  style={{mixBlendMode: 'multiply'}}
+                  className="w-full h-full object-contain filter drop-shadow-lg"
+                  style={{background: 'transparent'}}
                 />
               </div>
             </div>
             <div className="flex flex-col">
-              <h3 className="font-bold text-xl tracking-[0.1em] bg-gradient-to-r from-white via-[#E63946] to-white bg-clip-text text-transparent animate-pulse">🏗️ AI JANNIE</h3>
-              <span className="text-xs text-gray-300">🔧 Phoenix Projects Advisor</span>
+              <h3 className="font-bold text-xl tracking-[0.1em] bg-gradient-to-r from-white via-[#E63946] to-white bg-clip-text text-transparent animate-pulse">AI JANNIE</h3>
+              <span className="text-xs text-gray-300">Phoenix Projects Advisor</span>
             </div>
           </div>
           <button onClick={() => setIsOpen(false)} className="text-gray-300 hover:text-white transition-all duration-300 p-2 rounded-lg hover:bg-white/20 hover:scale-110 transform relative z-10">
@@ -229,7 +229,7 @@ const Chatbot: React.FC = () => {
                           <span className="w-2 h-2 bg-[#E63946] rounded-full animate-bounce [animation-delay:-0.15s]"></span>
                           <span className="w-2 h-2 bg-[#457B9D] rounded-full animate-bounce"></span>
                         </div>
-                        <span className="text-xs text-gray-500 ml-2">🤖 AI Jannie is thinking...</span>
+                        <span className="text-xs text-gray-500 ml-2">AI Jannie is thinking...</span>
                     </div>
                 </div>
               </div>

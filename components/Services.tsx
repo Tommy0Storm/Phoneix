@@ -4,28 +4,28 @@ import { WrenchIcon, ShieldCheckIcon, HomeCogIcon, ClipboardDocIcon } from './ic
 
 const services: Service[] = [
   {
-    name: '🏠 Home Improvements & Maintenance',
+    name: 'Home Improvements & Maintenance',
     description: 'From minor repairs to major renovations, we ensure your home is in pristine condition with meticulous attention to detail.',
     icon: <WrenchIcon />,
-    subServices: ['🚰 Plumbing', '⚡ Electrical Works', '🎨 Painting & Decorating', '🔲 Tiling & Flooring', '🪚 Carpentry', '🔧 General Repairs'],
+    subServices: ['Plumbing', 'Electrical Works', 'Painting & Decorating', 'Tiling & Flooring', 'Carpentry', 'General Repairs'],
   },
   {
-    name: '🛡️ Advanced Home Security',
+    name: 'Advanced Home Security',
     description: 'State-of-the-art security solutions, including smart cameras, alarms, and access control for your peace of mind.',
     icon: <ShieldCheckIcon />,
-    subServices: ['📹 CCTV Systems', '🚨 Smart Alarm Systems', '🔐 Access Control', '⚡ Electric Fencing', '📞 Intercoms'],
+    subServices: ['CCTV Systems', 'Smart Alarm Systems', 'Access Control', 'Electric Fencing', 'Intercoms'],
   },
   {
-    name: '🏡 Smart Home Automation',
+    name: 'Smart Home Automation',
     description: 'Integrate intelligent lighting, climate control, and entertainment systems for a seamless and modern living experience.',
     icon: <HomeCogIcon />,
-    subServices: ['💡 Automated Lighting', '🌡️ Climate Control', '🚪 Security Gates & Garages', '🎵 Multi-Room Audio', '🪟 Smart Blinds'],
+    subServices: ['Automated Lighting', 'Climate Control', 'Security Gates & Garages', 'Multi-Room Audio', 'Smart Blinds'],
   },
   {
-    name: '🏗️ Construction & Consulting',
+    name: 'Construction & Consulting',
     description: 'Expert project management and consulting services for new builds and extensions, delivering excellence from concept to completion.',
     icon: <ClipboardDocIcon />,
-    subServices: ['📋 Project Management', '🏢 New Builds', '🔨 Renovations', '📐 Architectural Planning', '📝 Compliance Consulting'],
+    subServices: ['Project Management', 'New Builds', 'Renovations', 'Architectural Planning', 'Compliance Consulting'],
   },
 ];
 
@@ -41,7 +41,7 @@ const ServiceCard: React.FC<{ service: Service }> = ({ service }) => (
       {/* Sub-services List */}
       <div className="absolute inset-0 flex items-center justify-center transition-all duration-300 ease-in-out transform opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 translate-y-2 group-hover:translate-y-0 group-focus-within:translate-y-0">
         <ul className="text-left text-gray-700 space-y-1">
-          {service.subServices?.map((sub, i) => <li key={i} className="flex items-center"><span className="text-[#457B9D] mr-2">✨</span>{sub}</li>)}
+          {service.subServices?.map((sub, i) => <li key={i} className="flex items-center"><span className="text-[#457B9D] mr-2">▸</span>{sub}</li>)}
         </ul>
       </div>
     </div>
@@ -53,9 +53,9 @@ const Services: React.FC = () => {
     <section className="py-20 bg-white">
       <div className="container mx-auto px-6">
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold uppercase tracking-widest text-black">🛠️ Our Expertise</h2>
+          <h2 className="text-3xl md:text-4xl font-bold uppercase tracking-widest text-black">Our Expertise</h2>
           <p className="text-lg text-gray-500 mt-4 max-w-2xl mx-auto" style={{fontWeight: 400}}>
-            ⭐ Delivering a comprehensive suite of services with an unwavering commitment to quality.
+            Delivering a comprehensive suite of services with an unwavering commitment to quality.
           </p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
