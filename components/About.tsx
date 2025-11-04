@@ -22,7 +22,7 @@ const About: React.FC = () => {
               <div className="relative bg-white p-6 rounded-2xl shadow-2xl transform hover:scale-105 transition-all duration-500">
                 <div className="relative h-96 overflow-hidden rounded-xl">
                   <img
-                    src="/andrew.jpg"
+                    src="/Phoneix/andrew.jpg"
                     alt="Andrew Truter - Founder & Owner of Phoenix Projects"
                     className="w-full h-full object-cover transition-transform duration-700 hover:scale-110"
                     loading="lazy"

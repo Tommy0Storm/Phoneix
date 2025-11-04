@@ -10,7 +10,7 @@ const Footer: React.FC = () => {
             <div className="absolute -inset-1 bg-gradient-to-r from-[#E63946] to-[#457B9D] rounded-xl opacity-30 blur-sm"></div>
             <div className="relative bg-white/10 backdrop-blur-sm p-3 rounded-xl">
               <img 
-                src="/logo.png" 
+                src="/Phoneix/logo.png" 
                 alt="Phoenix Projects Logo" 
                 className="w-12 h-12 object-contain filter drop-shadow-lg"
               />

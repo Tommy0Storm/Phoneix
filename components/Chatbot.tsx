@@ -171,7 +171,7 @@ const Chatbot: React.FC = () => {
               <div className="absolute -inset-1 bg-gradient-to-r from-[#E63946] to-[#D62837] rounded-full opacity-50 blur-sm animate-pulse"></div>
               <div className="relative w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center p-1">
                 <img 
-                  src="/logo.png" 
+                  src="/Phoneix/logo.png" 
                   alt="Phoenix Projects" 
                   className="w-full h-full object-contain filter drop-shadow-lg"
                 />

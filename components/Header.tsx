@@ -14,7 +14,7 @@ const Header: React.FC<HeaderProps> = ({ onQuoteClick }) => {
             <div className="absolute -inset-1 bg-gradient-to-r from-[#E63946] to-[#457B9D] rounded-xl opacity-50 blur-sm"></div>
             <div className="relative bg-white/10 backdrop-blur-sm p-2 rounded-xl">
               <img 
-                src="/logo.png" 
+                src="/Phoneix/logo.png" 
                 alt="Phoenix Projects Logo" 
                 className="w-10 h-10 object-contain filter drop-shadow-lg hover:scale-110 transition-transform duration-300"
               />

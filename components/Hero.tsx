@@ -31,7 +31,7 @@ const Hero: React.FC<HeroProps> = ({ onQuoteClick }) => {
             <div className="absolute -inset-2 bg-gradient-to-r from-[#E63946] via-[#457B9D] to-[#E63946] rounded-full opacity-30 blur-lg animate-pulse"></div>
             <div className="relative bg-white/10 backdrop-blur-xl p-4 rounded-full border border-white/20">
               <img 
-                src="/logo.png" 
+                src="/Phoneix/logo.png" 
                 alt="Phoenix Projects Logo" 
                 className="w-16 h-16 md:w-20 md:h-20 object-contain filter drop-shadow-2xl hover:scale-110 transition-transform duration-500"
               />
