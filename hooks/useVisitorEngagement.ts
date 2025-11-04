@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 interface VisitorEngagementState {
   shouldAutoOpen: boolean;
@@ -14,6 +14,8 @@ export const useVisitorEngagement = () => {
     showWelcomeTooltip: false,
     isFirstVisit: false,
   });
+
+  const reEngagementIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     // Check if user has visited before
@@ -89,10 +91,65 @@ export const useVisitorEngagement = () => {
     setState(prev => ({ ...prev, showWelcomeTooltip: false }));
   };
 
+  const startReEngagement = () => {
+    // Clear any existing interval
+    if (reEngagementIntervalRef.current) {
+      clearInterval(reEngagementIntervalRef.current);
+    }
+
+    // Start re-engagement every 10 seconds
+    reEngagementIntervalRef.current = setInterval(() => {
+      setState(prev => ({
+        ...prev,
+        showNotification: true,
+        showWelcomeTooltip: true,
+      }));
+
+      // Auto-hide tooltip after 5 seconds
+      setTimeout(() => {
+        setState(prev => ({ ...prev, showWelcomeTooltip: false }));
+      }, 5000);
+    }, 10000);
+  };
+
+  const stopReEngagement = () => {
+    if (reEngagementIntervalRef.current) {
+      clearInterval(reEngagementIntervalRef.current);
+      reEngagementIntervalRef.current = null;
+    }
+  };
+
+  const onChatClosed = () => {
+    // User closed the chat - start persistent re-engagement
+    setState(prev => ({
+      ...prev,
+      showNotification: true,
+      showWelcomeTooltip: true,
+    }));
+
+    // Start the 10-second interval
+    startReEngagement();
+  };
+
+  const onChatOpened = () => {
+    // User opened chat - stop re-engagement
+    stopReEngagement();
+    markInteraction();
+  };
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      stopReEngagement();
+    };
+  }, []);
+
   return {
     ...state,
     markInteraction,
     dismissNotification,
     dismissTooltip,
+    onChatClosed,
+    onChatOpened,
   };
 };

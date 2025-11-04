@@ -29,6 +29,8 @@ const Chatbot: React.FC = () => {
     isFirstVisit,
     markInteraction,
     dismissTooltip,
+    onChatClosed,
+    onChatOpened,
   } = useVisitorEngagement();
 
   const scrollToBottom = () => {
@@ -63,7 +65,7 @@ const Chatbot: React.FC = () => {
   useEffect(() => {
     if (shouldAutoOpen && !isOpen) {
       setIsOpen(true);
-      markInteraction();
+      onChatOpened();
     }
   }, [shouldAutoOpen]);
 
@@ -85,9 +87,15 @@ const Chatbot: React.FC = () => {
   };
 
   const handleChatToggle = () => {
+    const wasOpen = isOpen;
     setIsOpen(!isOpen);
-    if (!isOpen) {
-      markInteraction();
+
+    if (!wasOpen) {
+      // Opening chat
+      onChatOpened();
+    } else {
+      // Closing chat - start re-engagement
+      onChatClosed();
     }
   };
 
