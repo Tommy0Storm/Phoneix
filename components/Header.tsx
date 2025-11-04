@@ -11,12 +11,19 @@ const Header: React.FC<HeaderProps> = ({ onQuoteClick }) => {
         <div className="flex items-center space-x-4">
           <div className="relative">
             {/* Logo with premium frame effect */}
-            <div className="absolute -inset-1 bg-gradient-to-r from-[#E63946] to-[#457B9D] rounded-xl opacity-50 blur-sm"></div>
-            <div className="relative bg-white/10 backdrop-blur-sm p-2 rounded-xl">
+            <div className="absolute -inset-2 bg-gradient-to-r from-[#E63946] to-[#457B9D] rounded-xl opacity-50 blur-sm"></div>
+            <div className="relative bg-white/10 backdrop-blur-sm p-3 rounded-xl">
+              {/* Circular overlays */}
+              <div className="absolute inset-0 overflow-hidden rounded-xl">
+                <div className="absolute top-2 left-2 w-8 h-8 bg-gradient-to-br from-[#E63946]/30 to-transparent rounded-full"></div>
+                <div className="absolute top-4 right-3 w-6 h-6 bg-gradient-to-br from-[#457B9D]/25 to-transparent rounded-full"></div>
+                <div className="absolute bottom-3 left-4 w-5 h-5 bg-gradient-to-br from-white/20 to-transparent rounded-full"></div>
+                <div className="absolute bottom-2 right-2 w-7 h-7 bg-gradient-to-br from-[#E63946]/20 to-transparent rounded-full"></div>
+              </div>
               <img 
                 src="/Phoneix/logo.png" 
                 alt="Phoenix Projects Logo" 
-                className="w-20 h-20 object-contain filter drop-shadow-lg hover:scale-110 transition-transform duration-300"
+                className="w-40 h-40 object-contain filter drop-shadow-lg hover:scale-110 transition-transform duration-300 relative z-10"
                 style={{background: 'transparent'}}
               />
             </div>
