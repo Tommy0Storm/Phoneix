@@ -79,14 +79,19 @@ export const useChat = () => {
           parts: [{ text: m.content }],
         }));
 
-      // Generate content with search capability
+      // Generate content with Gemini 2.0 Flash and Google Search
       const result = await ai.models.generateContent({
-        model: 'gemini-1.5-flash',
+        model: 'gemini-2.0-flash-exp',
         contents: [
           ...conversationHistory,
           { role: 'user', parts: [{ text: `${SYSTEM_INSTRUCTION}\n\nUser: ${messageText}` }] }
-        ]
-      });
+        ],
+        tools: [{ googleSearch: {} }],
+        generationConfig: {
+          temperature: 0.3,
+          maxOutputTokens: 250
+        }
+      } as any);
 
       const responseText = result.text || 'I apologize, but I was unable to generate a response.';
 
