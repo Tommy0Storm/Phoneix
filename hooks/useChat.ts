@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { createGoogleGenerativeAI } from '@ai-sdk/google';
-import { streamText } from 'ai';
+import { streamText, tool } from 'ai';
 import type { Message } from '../types';
 import { calculateQuote, type JobEstimate } from '../utils/pricing';
 import { z } from 'zod';
@@ -116,7 +116,7 @@ export const useChat = () => {
 
       // Define the quote calculation tool
       const tools = {
-        calculateJobQuote: {
+        calculateJobQuote: tool({
           description: 'Calculate a detailed job quote with labor, materials (with 30% markup), and travel costs. Use this tool whenever providing a cost estimate to a user.',
           parameters: z.object({
             laborHours: z.number().describe('Estimated number of hours for the job'),
@@ -136,7 +136,7 @@ export const useChat = () => {
               totalCost: quote.totalCost,
             };
           },
-        },
+        }),
       };
 
       // Stream the response with Google Search grounding
