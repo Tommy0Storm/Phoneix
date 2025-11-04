@@ -138,10 +138,9 @@ export const useChat = () => {
       };
 
       // Stream the response with Google Search grounding
+      // Note: Search grounding is disabled when using tools due to API limitations
       const result = await streamText({
-        model: google('gemini-2.0-flash-exp', {
-          useSearchGrounding: true, // Enable Google Search
-        }),
+        model: google('gemini-2.0-flash-exp'),
         system: SYSTEM_INSTRUCTION,
         messages: [
           ...conversationHistory,

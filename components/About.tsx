@@ -1,16 +1,28 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { getRandomAboutImage, type ImagePool } from '../utils/images';
 
 const About: React.FC = () => {
+  const [image, setImage] = useState<ImagePool>({
+    url: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=1740&auto=format&fit=crop',
+    alt: 'Phoenix Automation team',
+  });
+
+  useEffect(() => {
+    // Set random image on mount
+    setImage(getRandomAboutImage());
+  }, []);
+
   return (
     <section className="py-20 bg-gray-50">
       <div className="container mx-auto px-6">
         <div className="flex flex-wrap items-center -mx-4">
           <div className="w-full lg:w-1/2 px-4 mb-8 lg:mb-0">
-            <div className="relative h-96">
-                <img 
-                    src="https://images.unsplash.com/photo-1581092921462-21516f4a8e03?q=80&w=1740&auto=format&fit=crop" 
-                    alt="Phoenix Automation team collaborating on a technical project" 
-                    className="w-full h-full object-cover"
+            <div className="relative h-96 overflow-hidden rounded-lg shadow-lg">
+                <img
+                    src={image.url}
+                    alt={image.alt}
+                    className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+                    loading="lazy"
                 />
             </div>
           </div>
