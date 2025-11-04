@@ -1,4 +1,5 @@
 import React from 'react';
+import { Mail, Phone, MapPin } from 'lucide-react';
 
 const Footer: React.FC = () => {
   return (
@@ -23,12 +24,21 @@ const Footer: React.FC = () => {
             <p className="text-sm text-gray-400 tracking-wide">▲ Building Excellence Since 2009</p>
           </div>
         </div>
-        <div className="flex justify-center space-x-6 mb-8 text-sm">
-          <a href="mailto:andrewtruter2@gmail.com" className="hover:text-white transition-colors">📧 andrewtruter2@gmail.com</a>
-          <span>&bull;</span>
-          <a href="tel:+27794635951" className="hover:text-white transition-colors">📱 +27 79 463 5951</a>
-          <span>&bull;</span>
-          <p>📍 Gauteng, South Africa</p>
+        <div className="flex flex-wrap justify-center gap-6 mb-8 text-sm">
+          <a href="mailto:andrewtruter2@gmail.com" className="flex items-center hover:text-white transition-colors group">
+            <Mail size={16} className="mr-2 group-hover:scale-110 transition-transform" />
+            andrewtruter2@gmail.com
+          </a>
+          <span className="hidden sm:inline">&bull;</span>
+          <a href="tel:+27794635951" className="flex items-center hover:text-white transition-colors group">
+            <Phone size={16} className="mr-2 group-hover:scale-110 transition-transform" />
+            +27 79 463 5951
+          </a>
+          <span className="hidden sm:inline">&bull;</span>
+          <p className="flex items-center">
+            <MapPin size={16} className="mr-2" />
+            Gauteng, South Africa
+          </p>
         </div>
         <p className="text-xs text-gray-500" style={{fontWeight: 400}}>
           © {new Date().getFullYear()} ◆ Phoenix Projects. All Rights Reserved. ▲

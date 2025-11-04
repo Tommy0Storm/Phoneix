@@ -1,4 +1,5 @@
 import React from 'react';
+import { Award, Target, TrendingUp, Users } from 'lucide-react';
 
 const About: React.FC = () => {
   return (

@@ -172,10 +172,9 @@ const Chatbot: React.FC = () => {
                 <div className="absolute -inset-0.5 bg-gradient-to-br from-[#E63946] to-[#457B9D] rounded-lg opacity-75 animate-pulse"></div>
                 <div className="relative bg-white p-1.5 rounded-lg shadow-lg">
                   <img 
-                    src="/Phoneix/logo.png" 
+                    src="/Phoneix/logo.jpg" 
                     alt="Phoenix Projects" 
-                    className="w-8 h-8 object-contain"
-                    style={{background: 'transparent'}}
+                    className="w-8 h-8 object-cover rounded"
                   />
                 </div>
               </div>
@@ -186,7 +185,7 @@ const Chatbot: React.FC = () => {
             </div>
           </div>
           <button onClick={() => setIsOpen(false)} className="text-gray-300 hover:text-white transition-all duration-300 p-2 rounded-lg hover:bg-white/20 hover:scale-110 transform relative z-10">
-            <CloseIcon />
+            <X size={24} />
           </button>
         </div>
 

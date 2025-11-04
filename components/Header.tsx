@@ -1,4 +1,5 @@
 import React from 'react';
+import { Sparkles } from 'lucide-react';
 
 interface HeaderProps {
   onQuoteClick: () => void;
@@ -14,10 +15,9 @@ const Header: React.FC<HeaderProps> = ({ onQuoteClick }) => {
             <div className="absolute -inset-1 bg-gradient-to-r from-[#E63946] to-[#457B9D] rounded-lg opacity-75"></div>
             <div className="relative bg-white p-2 rounded-lg shadow-xl">
               <img 
-                src="/Phoneix/logo.png" 
+                src="/Phoneix/logo.jpg" 
                 alt="Phoenix Projects Logo" 
-                className="w-12 h-12 object-contain hover:scale-105 transition-transform duration-300"
-                style={{background: 'transparent'}}
+                className="w-12 h-12 object-cover rounded-lg hover:scale-105 transition-transform duration-300"
               />
             </div>
           </div>

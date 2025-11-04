@@ -40,10 +40,9 @@ const Hero: React.FC<HeroProps> = ({ onQuoteClick }) => {
               <div className="relative bg-gradient-to-br from-white via-gray-50 to-white p-8 rounded-full shadow-2xl m-1">
                 {/* Premium logo display */}
                 <img 
-                  src="/Phoneix/logo.png" 
+                  src="/Phoneix/logo.jpg" 
                   alt="Phoenix Projects Logo" 
-                  className="w-48 h-48 md:w-64 md:h-64 object-contain drop-shadow-2xl hover:scale-105 transition-all duration-700"
-                  style={{background: 'transparent'}}
+                  className="w-48 h-48 md:w-64 md:h-64 object-contain drop-shadow-2xl hover:scale-105 transition-all duration-700 rounded-full"
                 />
                 
                 {/* Accent dots */}
