@@ -162,32 +162,39 @@ const Chatbot: React.FC = () => {
         style={{ borderRadius: '1.5rem', boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(255,255,255,0.1)' }}
       >
         {/* Header */}
-        <div className="flex justify-between items-center p-6 bg-gradient-to-r from-black via-gray-900 to-black text-white border-b border-white/10" style={{borderTopLeftRadius: '1.5rem', borderTopRightRadius: '1.5rem'}}>
-          <div className="flex items-center space-x-3">
-            <div className="w-8 h-8 bg-gradient-to-br from-[#E63946] to-[#D62837] rounded-full flex items-center justify-center">
-              <span className="text-white font-bold text-sm">P</span>
+        <div className="flex justify-between items-center p-6 bg-gradient-to-r from-black via-[#2c3e50] to-[#457B9D] text-white border-b border-white/20 relative overflow-hidden" style={{borderTopLeftRadius: '1.5rem', borderTopRightRadius: '1.5rem'}}>
+          {/* Animated background effect */}
+          <div className="absolute inset-0 bg-gradient-to-r from-[#E63946]/20 via-transparent to-[#457B9D]/20 animate-pulse"></div>
+          <div className="flex items-center space-x-3 relative z-10">
+            <div className="w-10 h-10 bg-gradient-to-br from-[#E63946] to-[#D62837] rounded-full flex items-center justify-center shadow-lg animate-bounce" style={{animationDuration: '2s'}}>
+              <span className="text-white font-bold text-lg">J</span>
             </div>
-            <h3 className="font-bold text-xl tracking-[0.1em] bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">PHOENIX AI</h3>
+            <div className="flex flex-col">
+              <h3 className="font-bold text-xl tracking-[0.1em] bg-gradient-to-r from-white via-[#E63946] to-white bg-clip-text text-transparent animate-pulse">AI JANNIE</h3>
+              <span className="text-xs text-gray-300">Phoenix Projects Advisor</span>
+            </div>
           </div>
-          <button onClick={() => setIsOpen(false)} className="text-gray-300 hover:text-white transition-all duration-300 p-2 rounded-lg hover:bg-white/10">
+          <button onClick={() => setIsOpen(false)} className="text-gray-300 hover:text-white transition-all duration-300 p-2 rounded-lg hover:bg-white/20 hover:scale-110 transform relative z-10">
             <CloseIcon />
           </button>
         </div>
 
         {/* Messages */}
-        <div className="flex-1 p-6 overflow-y-auto bg-gradient-to-b from-gray-50/50 to-white/80 backdrop-blur-sm">
-          <div className="space-y-4">
-            {messages.map((msg) => (
-              <div key={msg.id} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+        <div className="flex-1 p-6 overflow-y-auto bg-gradient-to-b from-gray-50/30 to-white/90 backdrop-blur-sm relative chat-scrollbar">
+          {/* Subtle background pattern */}
+          <div className="absolute inset-0 opacity-5" style={{backgroundImage: 'radial-gradient(circle at 1px 1px, #457B9D 1px, transparent 0)', backgroundSize: '20px 20px'}}></div>
+          <div className="space-y-4 relative z-10">
+            {messages.map((msg, index) => (
+              <div key={msg.id} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'} animate-in slide-in-from-bottom duration-500`} style={{animationDelay: `${index * 100}ms`}}>
                 <div
-                  className={`max-w-xs md:max-w-md lg:max-w-xs px-4 py-2 rounded-2xl ${
+                  className={`max-w-xs md:max-w-md lg:max-w-xs px-5 py-3 rounded-2xl shadow-lg transform hover:scale-105 transition-all duration-300 ${
                     msg.role === 'user'
-                      ? 'bg-[#457B9D] text-white rounded-br-none'
-                      : 'bg-gray-200 text-black rounded-bl-none'
+                      ? 'bg-gradient-to-br from-[#457B9D] to-[#2c3e50] text-white rounded-br-none border border-[#457B9D]/30'
+                      : 'bg-gradient-to-br from-white to-gray-50 text-black rounded-bl-none border border-gray-200 shadow-[0_4px_15px_rgba(70,123,157,0.1)]'
                   }`}
                 >
                   {msg.role === 'user' ? (
-                    <p className="text-sm whitespace-pre-wrap">{msg.content}</p>
+                    <p className="text-sm whitespace-pre-wrap font-medium">{msg.content}</p>
                   ) : (
                     <div 
                       className="text-sm prose prose-sm max-w-none"
@@ -205,12 +212,15 @@ const Chatbot: React.FC = () => {
               </div>
             ))}
             {isLoading && (
-              <div className="flex justify-start">
-                 <div className="px-4 py-2 rounded-2xl bg-gray-200 text-black rounded-bl-none">
-                    <div className="flex items-center space-x-1">
-                        <span className="w-2 h-2 bg-gray-400 rounded-full animate-pulse [animation-delay:-0.3s]"></span>
-                        <span className="w-2 h-2 bg-gray-400 rounded-full animate-pulse [animation-delay:-0.15s]"></span>
-                        <span className="w-2 h-2 bg-gray-400 rounded-full animate-pulse"></span>
+              <div className="flex justify-start animate-in slide-in-from-left duration-500">
+                 <div className="px-5 py-3 rounded-2xl bg-gradient-to-br from-white to-gray-50 text-black rounded-bl-none shadow-lg border border-gray-200">
+                    <div className="flex items-center space-x-2">
+                        <div className="flex space-x-1">
+                          <span className="w-2 h-2 bg-[#457B9D] rounded-full animate-bounce [animation-delay:-0.3s]"></span>
+                          <span className="w-2 h-2 bg-[#E63946] rounded-full animate-bounce [animation-delay:-0.15s]"></span>
+                          <span className="w-2 h-2 bg-[#457B9D] rounded-full animate-bounce"></span>
+                        </div>
+                        <span className="text-xs text-gray-500 ml-2">AI Jannie is thinking...</span>
                     </div>
                 </div>
               </div>
@@ -220,25 +230,27 @@ const Chatbot: React.FC = () => {
         </div>
 
         {/* Input */}
-        <div className="p-6 border-t border-gray-200/50 bg-gradient-to-r from-white to-gray-50/80 backdrop-blur-sm" style={{borderBottomLeftRadius: '1.5rem', borderBottomRightRadius: '1.5rem'}}>
+        <div className="p-6 border-t border-gray-200/50 bg-gradient-to-r from-white via-gray-50/80 to-white backdrop-blur-sm relative overflow-hidden" style={{borderBottomLeftRadius: '1.5rem', borderBottomRightRadius: '1.5rem'}}>
+          {/* Subtle animated background */}
+          <div className="absolute inset-0 bg-gradient-to-r from-[#457B9D]/5 via-transparent to-[#E63946]/5 animate-pulse"></div>
           {voiceError && (
-            <div className="mb-2 p-2 bg-red-50 border border-red-200 rounded-lg text-red-700 text-xs">
-              {voiceError}
+            <div className="mb-3 p-3 bg-gradient-to-r from-red-50 to-red-100 border border-red-200 rounded-lg text-red-700 text-xs shadow-sm animate-in slide-in-from-top duration-300">
+              <span className="font-medium">⚠️ {voiceError}</span>
             </div>
           )}
           {isListening && (
-            <div className="mb-2 p-2 bg-blue-50 border border-blue-200 rounded-lg text-blue-700 text-xs flex items-center">
-              <span className="mr-2">🎤</span>
-              <span>Listening... Speak now</span>
+            <div className="mb-3 p-3 bg-gradient-to-r from-[#457B9D]/10 to-[#E63946]/10 border border-[#457B9D]/30 rounded-lg text-[#2c3e50] text-xs flex items-center shadow-sm animate-pulse">
+              <span className="mr-2 text-lg animate-bounce">🎤</span>
+              <span className="font-medium">Listening... Speak now</span>
             </div>
           )}
-          <form onSubmit={handleSend} className="flex items-center space-x-2">
+          <form onSubmit={handleSend} className="flex items-center space-x-3 relative z-10">
             <input
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder={isListening ? "Listening..." : "Ask a question or use voice..."}
-              className="w-full px-4 py-2 border border-gray-300 rounded-full focus:ring-2 focus:ring-[#457B9D] focus:border-[#457B9D] transition-shadow duration-200 outline-none"
+              placeholder={isListening ? "Listening..." : "Ask AI Jannie anything..."}
+              className="w-full px-5 py-3 border-2 border-gray-300 rounded-full focus:ring-2 focus:ring-[#457B9D] focus:border-[#457B9D] transition-all duration-300 outline-none shadow-sm hover:shadow-md bg-white/90 backdrop-blur-sm font-medium"
               disabled={isLoading || isListening}
             />
             {voiceSupported && (
@@ -246,11 +258,11 @@ const Chatbot: React.FC = () => {
                 type="button"
                 onClick={handleMicClick}
                 disabled={isLoading}
-                className={`p-3 rounded-full transition-colors ${
+                className={`p-4 rounded-full transition-all duration-300 transform hover:scale-110 shadow-lg ${
                   isListening
-                    ? 'bg-red-500 text-white hover:bg-red-600'
-                    : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-                } disabled:bg-gray-400 disabled:cursor-not-allowed`}
+                    ? 'bg-gradient-to-br from-[#E63946] to-[#D62837] text-white hover:from-[#D62837] hover:to-[#C5252F] animate-pulse'
+                    : 'bg-gradient-to-br from-gray-100 to-gray-200 text-[#2c3e50] hover:from-[#457B9D] hover:to-[#2c3e50] hover:text-white'
+                } disabled:bg-gray-400 disabled:cursor-not-allowed disabled:transform-none`}
                 aria-label={isListening ? 'Stop recording' : 'Start voice input'}
                 title={isListening ? 'Click to stop' : 'Click to speak'}
               >
@@ -260,7 +272,7 @@ const Chatbot: React.FC = () => {
             <button
               type="submit"
               disabled={isLoading || !input.trim() || isListening}
-              className="bg-gradient-to-r from-[#E63946] to-[#D62837] text-white p-4 rounded-full hover:from-[#D62837] hover:to-[#C5252F] disabled:bg-gray-400 disabled:cursor-not-allowed transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
+              className="bg-gradient-to-br from-[#E63946] to-[#D62837] text-white p-4 rounded-full hover:from-[#D62837] hover:to-[#C5252F] disabled:bg-gray-400 disabled:cursor-not-allowed transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-110 disabled:transform-none animate-pulse disabled:animate-none"
               aria-label="Send message"
             >
               <SendIcon />
