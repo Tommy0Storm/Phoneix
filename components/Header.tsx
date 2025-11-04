@@ -23,9 +23,9 @@ const Header: React.FC<HeaderProps> = ({ onQuoteClick }) => {
           </div>
           <div className="flex flex-col">
             <h1 className="text-2xl font-bold tracking-[0.2em] bg-gradient-to-r from-white via-[#E63946] to-white bg-clip-text text-transparent" style={{fontFamily: "'Quicksand', sans-serif"}}>
-              PHOENIX PROJECTS
+              🏗️ PHOENIX PROJECTS
             </h1>
-            <p className="text-xs text-gray-300 tracking-widest">BUILDING EXCELLENCE SINCE 2009</p>
+            <p className="text-xs text-gray-300 tracking-widest">⭐ BUILDING EXCELLENCE SINCE 2009</p>
           </div>
         </div>
         <nav>
@@ -33,7 +33,7 @@ const Header: React.FC<HeaderProps> = ({ onQuoteClick }) => {
             onClick={onQuoteClick}
             className="bg-gradient-to-r from-[#E63946] to-[#D62837] text-white font-semibold py-3 px-8 rounded-none hover:from-[#D62837] hover:to-[#C5252F] transition-all duration-500 text-sm uppercase tracking-[0.15em] shadow-xl hover:shadow-2xl transform hover:scale-105 border border-white/20"
           >
-            PREMIUM CONSULTATION
+            💎 PREMIUM CONSULTATION
           </button>
         </nav>
       </div>
