@@ -33,7 +33,8 @@ const Hero: React.FC<HeroProps> = ({ onQuoteClick }) => {
               <img 
                 src="/Phoneix/logo.png" 
                 alt="Phoenix Projects Logo" 
-                className="w-16 h-16 md:w-20 md:h-20 object-contain filter drop-shadow-2xl hover:scale-110 transition-transform duration-500"
+                className="w-32 h-32 md:w-40 md:h-40 object-contain filter drop-shadow-2xl hover:scale-110 transition-transform duration-500 opacity-85 hover:opacity-100"
+                style={{mixBlendMode: 'multiply'}}
               />
             </div>
           </div>

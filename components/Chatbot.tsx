@@ -169,11 +169,12 @@ const Chatbot: React.FC = () => {
             <div className="relative">
               {/* Phoenix logo for AI Jannie */}
               <div className="absolute -inset-1 bg-gradient-to-r from-[#E63946] to-[#D62837] rounded-full opacity-50 blur-sm animate-pulse"></div>
-              <div className="relative w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center p-1">
+              <div className="relative w-20 h-20 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center p-2">
                 <img 
                   src="/Phoneix/logo.png" 
                   alt="Phoenix Projects" 
-                  className="w-full h-full object-contain filter drop-shadow-lg"
+                  className="w-full h-full object-contain filter drop-shadow-lg opacity-90"
+                  style={{mixBlendMode: 'multiply'}}
                 />
               </div>
             </div>

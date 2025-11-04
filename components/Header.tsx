@@ -16,7 +16,8 @@ const Header: React.FC<HeaderProps> = ({ onQuoteClick }) => {
               <img 
                 src="/Phoneix/logo.png" 
                 alt="Phoenix Projects Logo" 
-                className="w-10 h-10 object-contain filter drop-shadow-lg hover:scale-110 transition-transform duration-300"
+                className="w-20 h-20 object-contain filter drop-shadow-lg hover:scale-110 transition-transform duration-300 opacity-80 hover:opacity-100"
+                style={{mixBlendMode: 'multiply'}}
               />
             </div>
           </div>

@@ -12,7 +12,8 @@ const Footer: React.FC = () => {
               <img 
                 src="/Phoneix/logo.png" 
                 alt="Phoenix Projects Logo" 
-                className="w-12 h-12 object-contain filter drop-shadow-lg"
+                className="w-24 h-24 object-contain filter drop-shadow-lg opacity-85"
+                style={{mixBlendMode: 'multiply'}}
               />
             </div>
           </div>
