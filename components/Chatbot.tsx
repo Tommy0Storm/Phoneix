@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useChat } from '../hooks/useChat';
 import { useVoiceRecognition } from '../hooks/useVoiceRecognition';
 import { useVisitorEngagement } from '../hooks/useVisitorEngagement';
-import { ChatIcon, CloseIcon, SendIcon, MicrophoneIcon, MicrophoneActiveIcon } from './icons/ChatbotIcons';
+import { MessageCircle, X, Send, Mic, MicOff, Loader2 } from 'lucide-react';
 
 const Chatbot: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -140,7 +140,7 @@ const Chatbot: React.FC = () => {
           style={{boxShadow: '0 25px 50px -12px rgba(230, 57, 70, 0.4), 0 0 0 1px rgba(255,255,255,0.1)'}}
           aria-label={isOpen ? 'Close chat' : 'Open chat'}
         >
-          {isOpen ? <CloseIcon /> : <ChatIcon />}
+          {isOpen ? <X size={28} /> : <MessageCircle size={28} />}
 
           {/* Notification Badge */}
           {showNotification && !isOpen && (
@@ -276,7 +276,7 @@ const Chatbot: React.FC = () => {
                 aria-label={isListening ? 'Stop recording' : 'Start voice input'}
                 title={isListening ? 'Click to stop' : 'Click to speak'}
               >
-                {isListening ? <MicrophoneActiveIcon /> : <MicrophoneIcon />}
+                {isListening ? <MicOff size={20} /> : <Mic size={20} />}
               </button>
             )}
             <button
@@ -285,7 +285,7 @@ const Chatbot: React.FC = () => {
               className="bg-gradient-to-br from-[#E63946] to-[#D62837] text-white p-4 rounded-full hover:from-[#D62837] hover:to-[#C5252F] disabled:bg-gray-400 disabled:cursor-not-allowed transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-110 disabled:transform-none animate-pulse disabled:animate-none"
               aria-label="Send message"
             >
-              <SendIcon />
+              <Send size={20} />
             </button>
           </form>
         </div>
