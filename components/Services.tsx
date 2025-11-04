@@ -41,7 +41,7 @@ const ServiceCard: React.FC<{ service: Service }> = ({ service }) => (
       {/* Sub-services List */}
       <div className="absolute inset-0 flex items-center justify-center transition-all duration-300 ease-in-out transform opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 translate-y-2 group-hover:translate-y-0 group-focus-within:translate-y-0">
         <ul className="text-left text-gray-700 space-y-1">
-          {service.subServices?.map((sub, i) => <li key={i} className="flex items-center"><span className="text-[#457B9D] mr-2">◆</span>{sub}</li>)}
+          {service.subServices?.map((sub, i) => <li key={i} className="flex items-center">{sub}</li>)}
         </ul>
       </div>
     </div>
