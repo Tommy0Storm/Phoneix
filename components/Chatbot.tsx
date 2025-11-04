@@ -39,6 +39,17 @@ const Chatbot: React.FC = () => {
 
   useEffect(scrollToBottom, [messages, isLoading]);
 
+  // Auto-open chatbot if URL contains ?chat=open parameter
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('chat') === 'open') {
+      setIsOpen(true);
+      onChatOpened();
+      // Clean URL without reloading
+      window.history.replaceState({}, '', window.location.pathname);
+    }
+  }, [onChatOpened]);
+
   // Update input when transcript changes
   useEffect(() => {
     if (transcript) {
